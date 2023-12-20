@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from './components/Logo/Logo';
-import Button from './components/Button/Button';
+import Button from '../../common/Button/Button';
 import './Header.scss';
 
 const Header = () => {

@@ -1,13 +1,22 @@
+@use 'reset';
+
 * {
 	box-sizing: border-box;
 }
 
 body {
 	font-family: 'Open Sans', sans-serif;
+	background-color: #f7f7f7;
 }
 
 .container {
 	max-width: 1440px;
+	padding: 0px 30px;
+	margin: 0 auto;
+}
+
+.small-container {
+	max-width: 1182px;
 	padding: 0px 30px;
 	margin: 0 auto;
 }
