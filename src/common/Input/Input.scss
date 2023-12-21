@@ -1,0 +1,11 @@
+.input {
+	padding: 13px 16px;
+	color: #cfcfcf;
+	border: 1px solid #cfcfcf;
+	border-radius: 4px;
+	line-height: 24px;
+	&::placeholder {
+		font-family: 'Open Sans', sans-serif;
+		color: #cfcfcf;
+	}
+}
