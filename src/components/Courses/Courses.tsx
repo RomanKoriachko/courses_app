@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CourseCard from './components/CourseCard/CourseCard';
+
+import { CourseCard, SearchBar } from './components';
 import { mockedCoursesList } from 'src/constants';
-import SearchBar from './components/SearchBar/SearchBar';
 
 type Props = {
 	getChosenCourseId(courceId: string): void;

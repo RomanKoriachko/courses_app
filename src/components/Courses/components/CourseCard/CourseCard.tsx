@@ -1,10 +1,15 @@
 import React from 'react';
+
 import Button from 'src/common/Button/Button';
+import {
+	getAuthors,
+	getShortenString,
+	getCourseDuration,
+	formatCreationDate,
+} from '../../../../helpers';
+import { SHOW_COURSE_BUTTON_TEXT } from 'src/constants';
+
 import './CourseCard.scss';
-import { formatCreationDate } from 'src/helpers/formatCreationDate';
-import { getCourseDuration } from 'src/helpers/getCourseDuration';
-import { getAuthors } from 'src/helpers/getAuthors';
-import { getShortenString } from 'src/helpers/getShortenString';
 
 type Props = {
 	id: string;
@@ -32,19 +37,19 @@ const CourseCard = ({
 				<p className='course-card-description'>{description}</p>
 				<div className='course-card-data'>
 					<p className='course-card-data-item'>
-						<span className='bold-text'>Authors:</span>{' '}
+						<span className='bold-text'>Authors: </span>
 						{getShortenString(getAuthors(authors))}
 					</p>
 					<p className='course-card-data-item'>
-						<span className='bold-text'>Duration:</span>{' '}
+						<span className='bold-text'>Duration: </span>
 						{getCourseDuration(duration)}
 					</p>
 					<p className='course-card-data-item'>
-						<span className='bold-text'>Created:</span>{' '}
+						<span className='bold-text'>Created: </span>
 						{formatCreationDate(creationDate)}
 					</p>
 					<Button
-						buttonText={'show course'}
+						buttonText={SHOW_COURSE_BUTTON_TEXT}
 						onClick={() => getChosenCourseId(id)}
 					/>
 				</div>

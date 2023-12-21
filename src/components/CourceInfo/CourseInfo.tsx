@@ -1,9 +1,13 @@
 import React from 'react';
-import { formatCreationDate } from 'src/helpers/formatCreationDate';
-import { getAuthors } from 'src/helpers/getAuthors';
-import { getCourseDuration } from 'src/helpers/getCourseDuration';
-import './CourseInfo.scss';
+
+import {
+	getCourseDuration,
+	getAuthors,
+	formatCreationDate,
+} from '../../helpers';
 import Button from 'src/common/Button/Button';
+
+import './CourseInfo.scss';
 
 type Props = {
 	id: string;

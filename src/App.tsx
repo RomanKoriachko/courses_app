@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import './App.scss';
-import Header from './components/Header/Header';
-import Courses from './components/Courses/Courses';
-import CourseInfo from './components/CourceInfo/CourseInfo';
+
+import { Header, Courses, CourseInfo, EmptyCourseList } from './components';
 import { mockedCoursesList } from './constants';
-import EmptyCourseList from './components/EmptyCourseList/EmptyCourseList';
+
+import './App.scss';
 
 function App() {
 	const [chosenCourseId, setChosenCourseId] = useState<string>('');

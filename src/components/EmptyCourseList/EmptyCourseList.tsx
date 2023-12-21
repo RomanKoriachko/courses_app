@@ -1,6 +1,9 @@
 import React from 'react';
-import './EmptyCourseList.scss';
+
 import Button from 'src/common/Button/Button';
+import { ADD_COURSE_BUTTON_TEXT } from 'src/constants';
+
+import './EmptyCourseList.scss';
 
 const EmptyCourseList = () => {
 	return (
@@ -9,7 +12,7 @@ const EmptyCourseList = () => {
 			<p className='empty-course-list-text'>
 				Please use ’Add New Course’ button to add your first course
 			</p>
-			<Button buttonText='Add new course' />
+			<Button buttonText={ADD_COURSE_BUTTON_TEXT} />
 		</div>
 	);
 };

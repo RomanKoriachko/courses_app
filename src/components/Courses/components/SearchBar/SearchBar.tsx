@@ -1,8 +1,9 @@
 import React from 'react';
-import Button from 'src/common/Button/Button';
-import Input from 'src/common/Input/Input';
+
+import { Button, Input } from '../../../../common';
+import { SEARCH_BUTTON_TEXT, mockedCoursesList } from 'src/constants';
+
 import './SearchBar.scss';
-import { mockedCoursesList } from 'src/constants';
 
 type Props = {
 	searchInput: string;
@@ -36,7 +37,7 @@ const SearchBar = ({
 	return (
 		<div className='search-bar'>
 			<Input onChange={changeInput} value={searchInput} />
-			<Button buttonText='search' onClick={sortingCourses} />
+			<Button buttonText={SEARCH_BUTTON_TEXT} onClick={sortingCourses} />
 		</div>
 	);
 };
