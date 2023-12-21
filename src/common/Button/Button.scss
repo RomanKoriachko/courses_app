@@ -7,4 +7,8 @@
 	text-transform: uppercase;
 	color: #ffffff;
 	cursor: pointer;
+	transition: background-color 0.3s;
+	&:hover {
+		background-color: #008ebd;
+	}
 }

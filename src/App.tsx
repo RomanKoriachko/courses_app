@@ -4,6 +4,7 @@ import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
 import CourseInfo from './components/CourceInfo/CourseInfo';
 import { mockedCoursesList } from './constants';
+import EmptyCourseList from './components/EmptyCourseList/EmptyCourseList';
 
 function App() {
 	const [chosenCourseId, setChosenCourseId] = useState<string>('');
@@ -26,7 +27,9 @@ function App() {
 			<Header />
 			<main className='main'>
 				<div className='small-container'>
-					{chosenCourseId === '' ? (
+					{mockedCoursesList.length < 1 ? (
+						<EmptyCourseList />
+					) : chosenCourseId === '' ? (
 						<Courses getChosenCourseId={getChosenCourseId} />
 					) : (
 						<CourseInfo
