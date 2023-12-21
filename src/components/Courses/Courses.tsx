@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CourseCard, SearchBar } from './components';
 import { mockedCoursesList } from 'src/constants';
@@ -21,13 +21,18 @@ const Courses = ({ getChosenCourseId }: Props) => {
 		);
 	}
 
+	useEffect(() => {
+		if (searchInput.length < 1) {
+			setSortedCoursesArr(mockedCoursesList);
+		}
+	}, [searchInput.length]);
+
 	return (
 		<div className='courses'>
 			<SearchBar
 				searchInput={searchInput}
 				setSearchInput={setSearchInput}
 				sortingCourses={sortingCourses}
-				setSortedCoursesArr={setSortedCoursesArr}
 			/>
 			{sortedCoursesArr.map(
 				({ id, title, description, creationDate, duration, authors }) => (
