@@ -7,19 +7,23 @@ import { getAuthors } from 'src/helpers/getAuthors';
 import { getShortenString } from 'src/helpers/getShortenString';
 
 type Props = {
+	id: string;
 	title: string;
 	description: string;
 	authors: string[];
 	duration: number;
 	creationDate: string;
+	getChosenCourseId(courceId: string): void;
 };
 
 const CourseCard = ({
+	id,
 	title,
 	description,
 	authors,
 	duration,
 	creationDate,
+	getChosenCourseId,
 }: Props) => {
 	return (
 		<div className='course-card'>
@@ -39,7 +43,10 @@ const CourseCard = ({
 						<span className='bold-text'>Created:</span>{' '}
 						{formatCreationDate(creationDate)}
 					</p>
-					<Button buttonText={'show course'} />
+					<Button
+						buttonText={'show course'}
+						onClick={() => getChosenCourseId(id)}
+					/>
 				</div>
 			</div>
 		</div>
