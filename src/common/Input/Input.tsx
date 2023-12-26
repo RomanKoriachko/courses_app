@@ -4,13 +4,16 @@ import './Input.scss';
 
 type Props = {
 	onChange?(e: React.ChangeEvent<HTMLInputElement>): void;
-	value: string;
+	value?: string;
+	id?: string;
+	type: string;
 };
 
-const Input = ({ onChange, value }: Props) => (
+const Input = ({ onChange, value, id, type }: Props) => (
 	<input
+		id={id}
 		className='input'
-		type='text'
+		type={type}
 		placeholder='Input text'
 		onChange={onChange}
 		value={value}

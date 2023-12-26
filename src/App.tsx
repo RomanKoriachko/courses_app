@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-import { Header, Courses, CourseInfo, EmptyCourseList } from './components';
+import {
+	Header,
+	Courses,
+	CourseInfo,
+	EmptyCourseList,
+	Registration,
+} from './components';
 import { mockedCoursesList } from './constants';
 
 import './App.scss';
@@ -25,29 +31,36 @@ function App() {
 	return (
 		<>
 			<BrowserRouter>
-				<Routes>
-					<Header />
-					<Route path='/' element={<App />} />
-					<main className='main'>
-						<div className='small-container'>
-							{mockedCoursesList.length < 1 ? (
-								<EmptyCourseList />
-							) : chosenCourseId === '' ? (
-								<Courses getChosenCourseId={getChosenCourseId} />
-							) : (
-								<CourseInfo
-									id={chosenCourse.id}
-									title={chosenCourse.title}
-									description={chosenCourse.description}
-									authors={chosenCourse.authors}
-									duration={chosenCourse.duration}
-									creationDate={chosenCourse.creationDate}
-									goBackToCourses={goBackToCourses}
-								/>
-							)}
-						</div>
-					</main>
-				</Routes>
+				<Header />
+				<main className='main'>
+					<div className='small-container'>
+						<Routes>
+							<Route
+								path='/courses'
+								element={
+									<>
+										{mockedCoursesList.length < 1 ? (
+											<EmptyCourseList />
+										) : chosenCourseId === '' ? (
+											<Courses getChosenCourseId={getChosenCourseId} />
+										) : (
+											<CourseInfo
+												id={chosenCourse.id}
+												title={chosenCourse.title}
+												description={chosenCourse.description}
+												authors={chosenCourse.authors}
+												duration={chosenCourse.duration}
+												creationDate={chosenCourse.creationDate}
+												goBackToCourses={goBackToCourses}
+											/>
+										)}
+									</>
+								}
+							/>
+							<Route path='/' element={<Registration />} />
+						</Routes>
+					</div>
+				</main>
 			</BrowserRouter>
 		</>
 	);
