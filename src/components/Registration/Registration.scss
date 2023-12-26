@@ -17,12 +17,24 @@
 		padding: 77px 150px 60px;
 		.form-element {
 			margin-bottom: 34px;
+			position: relative;
 			label {
 				display: block;
 				font-weight: 700;
 			}
 			input {
 				width: 100%;
+			}
+			input.show {
+				border-color: #ff0000;
+			}
+			.validation-message {
+				display: none;
+				position: absolute;
+				color: #ff0000;
+			}
+			.validation-message.show {
+				display: block;
 			}
 		}
 		button {

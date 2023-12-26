@@ -7,12 +7,15 @@ type Props = {
 	value?: string;
 	id?: string;
 	type: string;
+	required?: boolean;
+	classname: string;
 };
 
-const Input = ({ onChange, value, id, type }: Props) => (
+const Input = ({ onChange, value, id, type, required, classname }: Props) => (
 	<input
+		required={required}
 		id={id}
-		className='input'
+		className={`input ${classname}-input`}
 		type={type}
 		placeholder='Input text'
 		onChange={onChange}

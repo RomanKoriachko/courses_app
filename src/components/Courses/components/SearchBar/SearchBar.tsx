@@ -18,7 +18,12 @@ const SearchBar = ({ searchInput, setSearchInput, sortingCourses }: Props) => {
 
 	return (
 		<div className='search-bar'>
-			<Input onChange={changeInput} value={searchInput} type='text' />
+			<Input
+				onChange={changeInput}
+				value={searchInput}
+				type='text'
+				classname='search'
+			/>
 			<Button buttonText={SEARCH_BUTTON_TEXT} onClick={sortingCourses} />
 		</div>
 	);
