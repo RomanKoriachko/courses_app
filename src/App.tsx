@@ -36,7 +36,8 @@ function App() {
 				<main className='main'>
 					<div className='small-container'>
 						<Routes>
-							<Route path='/' element={<Registration />} />
+							<Route path='*' element={<Registration />} />
+							<Route path='/registration' element={<Registration />} />
 							<Route path='/login' element={<Login />} />
 							<Route
 								path='/courses'

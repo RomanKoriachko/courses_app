@@ -6,9 +6,7 @@ export function checkInputValidation(
 		`.${inputsClass}`
 	) as NodeListOf<HTMLInputElement> | null;
 	const validationMessages = document.querySelectorAll(`.${messagesClass}`);
-
 	console.log(inputs);
-
 	for (let i = 0; i < inputs.length; i++) {
 		if (!inputs[i].checkValidity()) {
 			validationMessages[i].classList.add('show');

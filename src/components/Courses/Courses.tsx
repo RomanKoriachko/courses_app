@@ -27,6 +27,9 @@ const Courses = ({ getChosenCourseId }: Props) => {
 		}
 	}, [searchInput.length]);
 
+	const user = JSON.parse(localStorage.getItem('loginData'));
+	console.log(user);
+
 	return (
 		<div className='courses'>
 			<SearchBar
