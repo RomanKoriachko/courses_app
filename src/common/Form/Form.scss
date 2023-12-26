@@ -1,0 +1,48 @@
+.form-title {
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 40px;
+	margin-bottom: 36px;
+	text-align: center;
+}
+.form {
+	width: 100%;
+	border: 1px solid #cfcfcf;
+	border-radius: 4px;
+	background-color: #ffffff;
+	padding: 77px 150px 60px;
+	.form-element {
+		margin-bottom: 34px;
+		position: relative;
+		label {
+			display: block;
+			font-weight: 700;
+		}
+		input {
+			width: 100%;
+		}
+		input.show {
+			border-color: #ff0000;
+		}
+		.validation-message {
+			display: none;
+			position: absolute;
+			color: #ff0000;
+		}
+		.validation-message.show {
+			display: block;
+		}
+	}
+	button {
+		width: 100%;
+		margin-bottom: 38px;
+	}
+	.form-link {
+		text-align: center;
+		> a {
+			text-decoration: none;
+			color: #333e48;
+			font-weight: 700;
+		}
+	}
+}

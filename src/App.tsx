@@ -6,6 +6,7 @@ import {
 	CourseInfo,
 	EmptyCourseList,
 	Registration,
+	Login,
 } from './components';
 import { mockedCoursesList } from './constants';
 
@@ -35,6 +36,8 @@ function App() {
 				<main className='main'>
 					<div className='small-container'>
 						<Routes>
+							<Route path='/' element={<Registration />} />
+							<Route path='/login' element={<Login />} />
 							<Route
 								path='/courses'
 								element={
@@ -57,7 +60,6 @@ function App() {
 									</>
 								}
 							/>
-							<Route path='/' element={<Registration />} />
 						</Routes>
 					</div>
 				</main>
