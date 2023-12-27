@@ -1,5 +1,8 @@
 export function getCourseDuration(duration: number) {
-	const minutes = duration % 60 === 0 ? '00' : duration % 60;
+	let minutes = duration % 60 === 0 ? '00' : duration % 60;
+	if (minutes.toString().length === 1) {
+		minutes = '0' + minutes;
+	}
 	if (duration < 60) {
 		return `${duration} minutes`;
 	} else if (Math.floor(duration / 60) === 1) {

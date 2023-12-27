@@ -1,0 +1,21 @@
+.author-item {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	.author-item-icon {
+		width: 13px;
+		height: 13px;
+		margin-top: 3px;
+		border: none;
+		background-color: transparent;
+		background-position: center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+	}
+	.author-item-icon-add {
+		background-image: url(../../../../assets/add-icon.svg);
+	}
+	.author-item-icon-delite {
+		background-image: url(../../../../assets/delite-icon.svg);
+	}
+}

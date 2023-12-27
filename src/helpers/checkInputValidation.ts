@@ -11,8 +11,10 @@ export function checkInputValidation(
 			validationMessages[i].classList.add('show');
 			inputs[i].classList.add('show');
 		} else {
-			validationMessages[i].classList.remove('show');
-			inputs[i].classList.remove('show');
+			if (validationMessages[i] && inputs[i]) {
+				validationMessages[i].classList.remove('show');
+				inputs[i].classList.remove('show');
+			}
 		}
 	}
 }

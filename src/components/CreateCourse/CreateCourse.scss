@@ -5,7 +5,7 @@
 		line-height: 40px;
 		margin-bottom: 45px;
 	}
-	.create-course-form {
+	.create-course-wrapper {
 		background-color: #ffffff;
 		border: 1px solid #cfcfcf;
 		border-radius: 4px;
@@ -15,6 +15,22 @@
 			font-weight: 700;
 			line-height: 32px;
 			margin-bottom: 24px;
+		}
+		.create-course-input-wrapper {
+			position: relative;
+			margin-bottom: 24px;
+		}
+		.create-course-input.show {
+			border-color: #ff0000;
+		}
+		.validation-message {
+			display: none;
+			color: #ff0000;
+			position: absolute;
+			bottom: -21px;
+		}
+		.validation-message.show {
+			display: block;
 		}
 		.create-course-textarea-label {
 			font-size: 14px;
@@ -29,7 +45,6 @@
 			border-radius: 4px;
 			color: #cfcfcf;
 			font-family: 'Open Sans', sans-serif;
-			margin-bottom: 32px;
 			&::placeholder {
 				font-family: 'Open Sans', sans-serif;
 				color: #cfcfcf;
@@ -38,11 +53,15 @@
 		.create-course-input-row {
 			display: flex;
 			gap: 16px;
-			align-items: center;
+			align-items: flex-end;
+			margin-bottom: 32px;
 		}
 		.create-course-row {
 			display: flex;
 			justify-content: space-between;
+		}
+		.create-course-input-hours {
+			line-height: 50px;
 		}
 		.create-course-addet-authors {
 			text-align: center;
@@ -51,7 +70,7 @@
 	.create-course-buttons-row {
 		display: flex;
 		gap: 20px;
-		justify-content: end;
+		justify-content: flex-end;
 		margin-top: 32px;
 		margin-bottom: 32px;
 		> button {
