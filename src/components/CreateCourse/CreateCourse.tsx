@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useEffect, useState } from 'react';
 
 import { AuthorItem, InputAndLabel } from './components';
 import { Button } from 'src/common';
+import { checkInputValidation, getCourseDuration } from 'src/helpers';
+import { v4 as uuidv4 } from 'uuid';
 
 import './CreateCourse.scss';
-import { checkInputValidation, getCourseDuration } from 'src/helpers';
 
 type FormDataType = {
 	title: string;
 	description: string;
 	duration: number;
 	authors: string[];
+};
+
+type AuthorType = {
+	id: string;
+	name: string;
 };
 
 const CreateCourse = () => {
@@ -43,9 +50,33 @@ const CreateCourse = () => {
 		});
 	}
 
-	console.log(formData);
+	// console.log(formData);
 
-	// const [authorsList, setAuthorsList] = useState([]);
+	const [newAuthorName, setNewAuthorName] = useState<string>('');
+	const [authorsList, setAuthorsList] = useState<AuthorType[]>([
+		{
+			id: '1234124124',
+			name: 'Andrii Petrov',
+		},
+		{
+			id: '9823598163598326',
+			name: 'Semen Ivanov',
+		},
+	]);
+
+	function handleCHangeNewAuthor(e: React.ChangeEvent<HTMLInputElement>) {
+		setNewAuthorName(e.target.value);
+	}
+
+	function addNewAuthor() {
+		const newArr = authorsList;
+		newArr.push({
+			id: uuidv4(),
+			name: newAuthorName,
+		});
+		setAuthorsList(newArr);
+		setNewAuthorName('');
+	}
 
 	return (
 		<div className='create-course'>
@@ -111,12 +142,28 @@ const CreateCourse = () => {
 									required={false}
 									placeholderText='Input text'
 									type='text'
+									value={newAuthorName}
+									onChange={handleCHangeNewAuthor}
 								/>
-								<Button buttonText='create author' type='button' />
+								<Button
+									buttonText='create author'
+									type='button'
+									onClick={addNewAuthor}
+								/>
 							</div>
 							<p className='create-course-subtitle'>Authors List</p>
-							<AuthorItem author='Author one' />
-							<AuthorItem author='Author two' />
+							<div className='create-course-new-authors'>
+								{authorsList.map((element) => (
+									<div key={element.id}>
+										<AuthorItem
+											id={element.id}
+											author={element.name}
+											authorsList={authorsList}
+											setAuthorsList={setAuthorsList}
+										/>
+									</div>
+								))}
+							</div>
 						</div>
 						<div className='create-course-addet-authors'>
 							<p className='create-course-subtitle'>Course Authors</p>
