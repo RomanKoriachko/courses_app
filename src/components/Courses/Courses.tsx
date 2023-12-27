@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { CourseCard, SearchBar } from './components';
 import { mockedCoursesList } from 'src/constants';
 
-type Props = {
-	getChosenCourseId(courceId: string): void;
-};
-
-const Courses = ({ getChosenCourseId }: Props) => {
+const Courses = () => {
 	const [searchInput, setSearchInput] = useState<string>('');
 	const [sortedCoursesArr, setSortedCoursesArr] = useState(mockedCoursesList);
 
@@ -41,13 +37,12 @@ const Courses = ({ getChosenCourseId }: Props) => {
 				({ id, title, description, creationDate, duration, authors }) => (
 					<React.Fragment key={id}>
 						<CourseCard
-							id={id}
+							courseId={id}
 							title={title}
 							description={description}
 							authors={authors}
 							duration={duration}
 							creationDate={creationDate}
-							getChosenCourseId={getChosenCourseId}
 						/>
 					</React.Fragment>
 				)

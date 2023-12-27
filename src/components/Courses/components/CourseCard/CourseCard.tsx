@@ -10,25 +10,24 @@ import {
 import { SHOW_COURSE_BUTTON_TEXT } from 'src/constants';
 
 import './CourseCard.scss';
+import { Link } from 'react-router-dom';
 
 type Props = {
-	id: string;
+	courseId: string;
 	title: string;
 	description: string;
 	authors: string[];
 	duration: number;
 	creationDate: string;
-	getChosenCourseId(courceId: string): void;
 };
 
 const CourseCard = ({
-	id,
+	courseId,
 	title,
 	description,
 	authors,
 	duration,
 	creationDate,
-	getChosenCourseId,
 }: Props) => {
 	return (
 		<div className='course-card'>
@@ -48,10 +47,9 @@ const CourseCard = ({
 						<span className='bold-text'>Created: </span>
 						{formatCreationDate(creationDate)}
 					</p>
-					<Button
-						buttonText={SHOW_COURSE_BUTTON_TEXT}
-						onClick={() => getChosenCourseId(id)}
-					/>
+					<Link to={`/courses/${courseId}`}>
+						<Button buttonText={SHOW_COURSE_BUTTON_TEXT} />
+					</Link>
 				</div>
 			</div>
 		</div>
