@@ -11,7 +11,7 @@ import {
 import { mockedCoursesList } from './constants';
 
 import './App.scss';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 function App() {
 	return (
@@ -21,7 +21,7 @@ function App() {
 				<main className='main'>
 					<div className='small-container'>
 						<Routes>
-							<Route path='*' element={<Registration />} />
+							<Route path='/' element={<Navigate to='/courses' />} />
 							<Route path='/registration' element={<Registration />} />
 							<Route path='/login' element={<Login />} />
 							<Route
@@ -37,6 +37,7 @@ function App() {
 								}
 							/>
 							<Route path='/courses/:courseId' element={<CourseInfo />} />
+							<Route path='*' element={<Navigate to='/courses' />} />
 						</Routes>
 					</div>
 				</main>

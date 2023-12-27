@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { CourseCard, SearchBar } from './components';
 import { mockedCoursesList } from 'src/constants';
+import { useNavigate } from 'react-router-dom';
 
 const Courses = () => {
 	const [searchInput, setSearchInput] = useState<string>('');
@@ -23,8 +24,14 @@ const Courses = () => {
 		}
 	}, [searchInput.length]);
 
-	const user = JSON.parse(localStorage.getItem('loginData'));
-	console.log(user);
+	const localUserData = JSON.parse(localStorage.getItem('loginData'));
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!localUserData) {
+			navigate('/registration');
+		}
+	}, []);
 
 	return (
 		<div className='courses'>

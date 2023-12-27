@@ -16,6 +16,7 @@ const CourceInfo = () => {
 	const CurrentCourse = mockedCoursesList.filter(
 		(element) => element.id === params.courseId
 	);
+
 	const [number, unit] = getCourseDuration(CurrentCourse[0].duration).split(
 		' '
 	);
