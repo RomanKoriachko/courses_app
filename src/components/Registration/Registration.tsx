@@ -12,7 +12,14 @@ type UserType = {
 	email: string;
 };
 
-const Registration = () => {
+type Props = {
+	errorState: boolean;
+	setErrorState(arg: boolean): void;
+};
+
+const Registration = ({ errorState, setErrorState }: Props) => {
+	// Changing inputs in Registration form
+
 	const [newUser, setNewUser] = useState<UserType>({
 		name: '',
 		password: '',
@@ -38,26 +45,38 @@ const Registration = () => {
 		}));
 	}
 
+	//  Submit Registration function
+
 	const navigate = useNavigate();
 
 	function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		fetchData('http://localhost:4000/register', newUser, navigate, '/login');
+		fetchData(
+			'http://localhost:4000/register',
+			newUser,
+			navigate,
+			'/login',
+			setErrorState
+		);
 	}
 
 	return (
 		<div className='registration'>
-			<Form
-				formTitle='Registration'
-				formAction='http://localhost:4000/register'
-				nameInput={true}
-				isRegistration={true}
-				onFormSubmit={onFormSubmit}
-				changeName={changeName}
-				changeEmail={changeEmail}
-				changePassword={changePassword}
-				userData={newUser}
-			/>
+			{errorState ? (
+				<p className='registration-error'>Sorry, Registration failed!</p>
+			) : (
+				<Form
+					formTitle='Registration'
+					formAction='http://localhost:4000/register'
+					nameInput={true}
+					isRegistration={true}
+					onFormSubmit={onFormSubmit}
+					changeName={changeName}
+					changeEmail={changeEmail}
+					changePassword={changePassword}
+					userData={newUser}
+				/>
+			)}
 		</div>
 	);
 };

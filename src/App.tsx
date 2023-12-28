@@ -16,6 +16,7 @@ import './App.scss';
 
 function App() {
 	const [sortedCoursesArr, setSortedCoursesArr] = useState(mockedCoursesList);
+	const [errorState, setErrorState] = useState<boolean>(false);
 	return (
 		<>
 			<BrowserRouter>
@@ -24,8 +25,24 @@ function App() {
 					<div className='small-container'>
 						<Routes>
 							<Route path='/' element={<Navigate to='/courses' />} />
-							<Route path='/registration' element={<Registration />} />
-							<Route path='/login' element={<Login />} />
+							<Route
+								path='/registration'
+								element={
+									<Registration
+										errorState={errorState}
+										setErrorState={setErrorState}
+									/>
+								}
+							/>
+							<Route
+								path='/login'
+								element={
+									<Login
+										errorState={errorState}
+										setErrorState={setErrorState}
+									/>
+								}
+							/>
 							<Route
 								path='/courses'
 								element={

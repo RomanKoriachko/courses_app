@@ -11,7 +11,14 @@ type LoginDataType = {
 	email: string;
 };
 
-const Login = () => {
+type Props = {
+	errorState: boolean;
+	setErrorState(arg: boolean): void;
+};
+
+const Login = ({ errorState, setErrorState }: Props) => {
+	// Changing inputs in Login form
+
 	const [loginData, setLoginData] = useState<LoginDataType>({
 		password: '',
 		email: '',
@@ -30,6 +37,8 @@ const Login = () => {
 		}));
 	}
 
+	//  Submit Login function
+
 	const navigate = useNavigate();
 
 	async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -38,22 +47,27 @@ const Login = () => {
 			'http://localhost:4000/login',
 			loginData,
 			navigate,
-			'/courses'
+			'/courses',
+			setErrorState
 		);
 	}
 
 	return (
 		<div className='login'>
-			<Form
-				formTitle='Login'
-				formAction='http://localhost:4000/login'
-				nameInput={false}
-				isRegistration={false}
-				onFormSubmit={onFormSubmit}
-				changeEmail={changeEmail}
-				changePassword={changePassword}
-				userData={loginData}
-			/>
+			{errorState ? (
+				<p className='login-error'>Sorry, Login is failed!</p>
+			) : (
+				<Form
+					formTitle='Login'
+					formAction='http://localhost:4000/login'
+					nameInput={false}
+					isRegistration={false}
+					onFormSubmit={onFormSubmit}
+					changeEmail={changeEmail}
+					changePassword={changePassword}
+					userData={loginData}
+				/>
+			)}
 		</div>
 	);
 };

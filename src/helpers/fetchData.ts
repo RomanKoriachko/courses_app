@@ -10,7 +10,8 @@ export async function fetchData(
 	link: string,
 	userData: UserType,
 	navigate: NavigateFunction,
-	navigationLink: string
+	navigationLink: string,
+	setErrorState: React.Dispatch<React.SetStateAction<boolean>>
 ) {
 	try {
 		const response = await fetch(link, {
@@ -29,10 +30,12 @@ export async function fetchData(
 		if (result.successful && link === 'http://localhost:4000/login') {
 			const user = JSON.stringify(result);
 			localStorage.setItem('loginData', user);
+			setErrorState(false);
 		}
 
 		return result;
 	} catch (error) {
 		console.log(error);
+		setErrorState(true);
 	}
 }
