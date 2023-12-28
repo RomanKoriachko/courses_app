@@ -7,9 +7,22 @@ import { Button } from 'src/common';
 
 import './Courses.scss';
 
-const Courses = () => {
+type CoursesArrType = {
+	id: string;
+	title: string;
+	description: string;
+	creationDate: string;
+	duration: number;
+	authors: string[];
+};
+
+type Props = {
+	sortedCoursesArr: CoursesArrType[];
+	setSortedCoursesArr(arg: CoursesArrType[]): void;
+};
+
+const Courses = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 	const [searchInput, setSearchInput] = useState<string>('');
-	const [sortedCoursesArr, setSortedCoursesArr] = useState(mockedCoursesList);
 
 	function sortingCourses() {
 		setSortedCoursesArr(

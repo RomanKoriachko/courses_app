@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
 	Header,
@@ -10,11 +10,12 @@ import {
 	CreateCourse,
 } from './components';
 import { mockedCoursesList } from './constants';
-
-import './App.scss';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import './App.scss';
+
 function App() {
+	const [sortedCoursesArr, setSortedCoursesArr] = useState(mockedCoursesList);
 	return (
 		<>
 			<BrowserRouter>
@@ -32,13 +33,24 @@ function App() {
 										{mockedCoursesList.length < 1 ? (
 											<EmptyCourseList />
 										) : (
-											<Courses />
+											<Courses
+												sortedCoursesArr={sortedCoursesArr}
+												setSortedCoursesArr={setSortedCoursesArr}
+											/>
 										)}
 									</>
 								}
 							/>
 							<Route path='/courses/:courseId' element={<CourseInfo />} />
-							<Route path='/courses/add' element={<CreateCourse />} />
+							<Route
+								path='/courses/add'
+								element={
+									<CreateCourse
+										sortedCoursesArr={sortedCoursesArr}
+										setSortedCoursesArr={setSortedCoursesArr}
+									/>
+								}
+							/>
 							<Route path='*' element={<Navigate to='/courses' />} />
 						</Routes>
 					</div>

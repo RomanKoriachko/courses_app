@@ -1,30 +1,47 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { AuthorItem, InputAndLabel } from './components';
 import { Button } from 'src/common';
-import { checkInputValidation, getCourseDuration } from 'src/helpers';
+import {
+	checkInputValidation,
+	getCourseDuration,
+	getCurrentDate,
+} from 'src/helpers';
 import { v4 as uuidv4 } from 'uuid';
+import { mockedAuthorsList } from 'src/constants';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './CreateCourse.scss';
-
-type FormDataType = {
-	title: string;
-	description: string;
-	duration: number;
-	authors: string[];
-};
 
 type AuthorType = {
 	id: string;
 	name: string;
 };
 
-const CreateCourse = () => {
-	const [formData, setFormData] = useState<FormDataType>({
+type CoursesArrType = {
+	id: string;
+	title: string;
+	description: string;
+	creationDate: string;
+	duration: number;
+	authors: string[];
+};
+
+type Props = {
+	sortedCoursesArr: CoursesArrType[];
+	setSortedCoursesArr(arg: CoursesArrType[]): void;
+};
+
+const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
+	// Input handlers
+
+	const [formData, setFormData] = useState<CoursesArrType>({
+		id: '',
 		title: '',
 		description: '',
-		duration: null,
+		creationDate: '',
+		duration: 0,
 		authors: [],
 	});
 
@@ -50,19 +67,11 @@ const CreateCourse = () => {
 		});
 	}
 
-	// console.log(formData);
+	// Adding new authors
 
 	const [newAuthorName, setNewAuthorName] = useState<string>('');
-	const [authorsList, setAuthorsList] = useState<AuthorType[]>([
-		{
-			id: '1234124124',
-			name: 'Andrii Petrov',
-		},
-		{
-			id: '9823598163598326',
-			name: 'Semen Ivanov',
-		},
-	]);
+	const [authorsList, setAuthorsList] =
+		useState<AuthorType[]>(mockedAuthorsList);
 
 	function handleCHangeNewAuthor(e: React.ChangeEvent<HTMLInputElement>) {
 		setNewAuthorName(e.target.value);
@@ -70,18 +79,83 @@ const CreateCourse = () => {
 
 	function addNewAuthor() {
 		const newArr = authorsList;
-		newArr.push({
+		if (newAuthorName.length < 2) {
+			alert('author name too short');
+		} else {
+			newArr.push({
+				id: uuidv4(),
+				name: newAuthorName,
+			});
+			setAuthorsList(newArr);
+			setNewAuthorName('');
+		}
+	}
+
+	function deliteFromAuthorsList(id: string) {
+		const updatedAuthorsList = authorsList.filter((author) => author.id !== id);
+		setAuthorsList(updatedAuthorsList);
+	}
+
+	// Add and delite authors from Course Authors
+
+	const [courseAuthorsArr, setCourseAuthorsArr] = useState<AuthorType[]>([]);
+
+	function addToCourseAuthors(id: string) {
+		const updatedCourseAuthorsArr = [...courseAuthorsArr];
+		const currentAuthor = authorsList.filter((author) => author.id === id);
+		updatedCourseAuthorsArr.push(currentAuthor[0]);
+
+		setFormData((PrevState) => ({
+			...PrevState,
+			authors: [...PrevState.authors, currentAuthor[0].id],
+		}));
+		setCourseAuthorsArr(updatedCourseAuthorsArr);
+		deliteFromAuthorsList(id);
+	}
+
+	function deliteFromCourseAuthors(id: string) {
+		const updatedAuthorsList = courseAuthorsArr.filter(
+			(author) => author.id !== id
+		);
+		const updatedCourseAuthorsArr = [...authorsList];
+		const currentAuthor = courseAuthorsArr.filter((author) => author.id === id);
+		updatedCourseAuthorsArr.push(currentAuthor[0]);
+		setFormData((prevState) => ({
+			...prevState,
+			authors: prevState.authors.filter((author) => author !== id),
+		}));
+		setCourseAuthorsArr(updatedAuthorsList);
+		setAuthorsList(updatedCourseAuthorsArr);
+	}
+
+	// Form submit function
+
+	function checkFormValidation() {
+		checkInputValidation('create-course-input', 'validation-message');
+		setFormData((prevState) => ({
+			...prevState,
 			id: uuidv4(),
-			name: newAuthorName,
-		});
-		setAuthorsList(newArr);
-		setNewAuthorName('');
+			creationDate: getCurrentDate(),
+		}));
+	}
+
+	const navigate = useNavigate();
+	function onFormSubmitClick(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		if (formData.authors.length < 1) {
+			alert('at least one author should be added');
+		} else {
+			const newCoursesArr = sortedCoursesArr;
+			newCoursesArr.push(formData);
+			setSortedCoursesArr(newCoursesArr);
+			navigate('/courses');
+		}
 	}
 
 	return (
 		<div className='create-course'>
 			<p className='create-course-title'>Course edit/create page</p>
-			<form className='create-course-form' method='POST'>
+			<form className='create-course-form' onSubmit={onFormSubmitClick}>
 				<div className='create-course-wrapper'>
 					<div className='create-course-input-wrapper'>
 						<p className='create-course-subtitle'>Main Info</p>
@@ -122,7 +196,7 @@ const CreateCourse = () => {
 								placeholderText='Input text'
 								type='number'
 								pattern='/[0-9]|\./'
-								value={formData.duration}
+								value={formData.duration === 0 ? '' : formData.duration}
 								onChange={handleChangeDuration}
 							/>
 							<p className='validation-message'>Duration is required.</p>
@@ -158,8 +232,8 @@ const CreateCourse = () => {
 										<AuthorItem
 											id={element.id}
 											author={element.name}
-											authorsList={authorsList}
-											setAuthorsList={setAuthorsList}
+											onDeliteClick={deliteFromAuthorsList}
+											onAddClick={addToCourseAuthors}
 										/>
 									</div>
 								))}
@@ -167,17 +241,29 @@ const CreateCourse = () => {
 						</div>
 						<div className='create-course-addet-authors'>
 							<p className='create-course-subtitle'>Course Authors</p>
-							<p>Author list is empty</p>
+							{courseAuthorsArr.length < 1 ? (
+								<p>Author list is empty</p>
+							) : (
+								courseAuthorsArr.map((element) => (
+									<div key={element.id}>
+										<AuthorItem
+											id={element.id}
+											author={element.name}
+											onDeliteClick={deliteFromCourseAuthors}
+										/>
+									</div>
+								))
+							)}
 						</div>
 					</div>
 				</div>
 				<div className='create-course-buttons-row'>
-					<Button buttonText='cancel' type='button' />
+					<Link to='/courses'>
+						<Button buttonText='cancel' type='button' />
+					</Link>
 					<div
 						className='create-course-submit-btn-wrapper'
-						onClick={() =>
-							checkInputValidation('create-course-input', 'validation-message')
-						}
+						onClick={checkFormValidation}
 					>
 						<Button buttonText='create course' type='submit' />
 					</div>
