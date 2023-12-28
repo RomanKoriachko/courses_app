@@ -7,4 +7,10 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	.header-name-and-btn-row {
+		display: flex;
+		align-items: center;
+		gap: 26px;
+		font-weight: 600;
+	}
 }
