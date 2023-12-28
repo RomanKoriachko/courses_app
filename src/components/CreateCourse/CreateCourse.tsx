@@ -69,25 +69,25 @@ const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 
 	// Adding new authors
 
-	const [newAuthorName, setNewAuthorName] = useState<string>('');
+	const [authorNameInput, setAuthorNameInput] = useState<string>('');
 	const [authorsList, setAuthorsList] =
 		useState<AuthorType[]>(mockedAuthorsList);
 
 	function handleCHangeNewAuthor(e: React.ChangeEvent<HTMLInputElement>) {
-		setNewAuthorName(e.target.value);
+		setAuthorNameInput(e.target.value);
 	}
 
 	function addNewAuthor() {
 		const newArr = authorsList;
-		if (newAuthorName.length < 2) {
+		if (authorNameInput.length < 2) {
 			alert('author name too short');
 		} else {
 			newArr.push({
 				id: uuidv4(),
-				name: newAuthorName,
+				name: authorNameInput,
 			});
 			setAuthorsList(newArr);
-			setNewAuthorName('');
+			setAuthorNameInput('');
 		}
 	}
 
@@ -196,12 +196,16 @@ const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 								placeholderText='Input text'
 								type='number'
 								pattern='/[0-9]|\./'
-								value={formData.duration === 0 ? '' : formData.duration}
+								value={
+									formData.duration === 0 || isNaN(formData.duration)
+										? ''
+										: formData.duration
+								}
 								onChange={handleChangeDuration}
 							/>
 							<p className='validation-message'>Duration is required.</p>
 							<div className='create-course-input-hours'>
-								{isNaN(formData.duration) || formData.duration == null
+								{isNaN(formData.duration) || formData.duration === 0
 									? '00:00 hours'
 									: getCourseDuration(formData.duration)}
 							</div>
@@ -216,7 +220,7 @@ const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 									required={false}
 									placeholderText='Input text'
 									type='text'
-									value={newAuthorName}
+									value={authorNameInput}
 									onChange={handleCHangeNewAuthor}
 								/>
 								<Button
