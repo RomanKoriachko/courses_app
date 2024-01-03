@@ -4,7 +4,6 @@ import {
 	Header,
 	Courses,
 	CourseInfo,
-	EmptyCourseList,
 	Registration,
 	Login,
 	CreateCourse,
@@ -13,33 +12,27 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import './App.scss';
 import { getData } from './helpers';
-import { useAppDispatch, useAppSelector } from './store/courses/types';
+import { useAppDispatch } from './store/courses/types';
 import { saveCoursesAction } from './store/courses/actions';
-
-type CoursesArrType = {
-	id: string;
-	title: string;
-	description: string;
-	creationDate: string;
-	duration: number;
-	authors: string[];
-};
+import { saveAuthorsAction } from './store/authors/actions';
 
 function App() {
-	const [sortedCoursesArr, setSortedCoursesArr] = useState([]);
-
 	const dispatch = useAppDispatch();
-
-	const arr = useAppSelector((state) => state.courses);
-	console.log(arr);
 
 	useEffect(() => {
 		const fetchDataFromServer = async () => {
 			try {
-				const result = await getData('http://localhost:4000/courses/all');
-				dispatch(saveCoursesAction(result));
+				const coursesResult = await getData(
+					'http://localhost:4000/courses/all'
+				);
+				dispatch(saveCoursesAction(coursesResult));
+				const AuthorsResult = await getData(
+					'http://localhost:4000/authors/all'
+				);
+				dispatch(saveAuthorsAction(AuthorsResult));
 			} catch (error) {
-				console.error('Помилка при отриманні даних з сервера:', error);
+				console.error('Error while receiving data from the server:', error);
+				return [];
 			}
 		};
 		fetchDataFromServer();
@@ -72,31 +65,9 @@ function App() {
 									/>
 								}
 							/>
-							<Route
-								path='/courses'
-								element={
-									<>
-										{/* {mockedCoursesList.length < 1 ? (
-												<EmptyCourseList />
-											) : (
-												<Courses
-													sortedCoursesArr={sortedCoursesArr}
-													setSortedCoursesArr={setSortedCoursesArr}
-												/>
-											)} */}
-									</>
-								}
-							/>
+							<Route path='/courses' element={<Courses />} />
 							<Route path='/courses/:courseId' element={<CourseInfo />} />
-							{/* <Route
-									path='/courses/add'
-									element={
-										<CreateCourse
-											sortedCoursesArr={sortedCoursesArr}
-											setSortedCoursesArr={setSortedCoursesArr}
-										/>
-									}
-								/> */}
+							<Route path='/courses/add' element={<CreateCourse />} />
 							<Route path='*' element={<Navigate to='/courses' />} />
 						</Routes>
 					</div>

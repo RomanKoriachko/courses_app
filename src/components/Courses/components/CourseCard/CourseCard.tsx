@@ -2,15 +2,15 @@ import React from 'react';
 
 import Button from 'src/common/Button/Button';
 import {
-	// getAuthors,
 	getShortenString,
+	getAuthors,
 	getCourseDuration,
 	formatCreationDate,
 } from '../../../../helpers';
 import { SHOW_COURSE_BUTTON_TEXT } from 'src/constants';
+import { Link } from 'react-router-dom';
 
 import './CourseCard.scss';
-import { Link } from 'react-router-dom';
 
 type Props = {
 	courseId: string;
@@ -37,7 +37,7 @@ const CourseCard = ({
 				<div className='course-card-data'>
 					<p className='course-card-data-item'>
 						<span className='bold-text'>Authors: </span>
-						{/* {getShortenString(getAuthors(authors))} */}
+						{getShortenString(getAuthors(authors))}
 					</p>
 					<p className='course-card-data-item'>
 						<span className='bold-text'>Duration: </span>

@@ -1,44 +1,44 @@
 import React, { useEffect, useState } from 'react';
 
 import { CourseCard, SearchBar } from './components';
-// import { mockedCoursesList } from 'src/constants';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'src/common';
+import { useAppSelector } from 'src/store/authors/types';
+import { EmptyCourseList } from '../EmptyCourseList';
 
 import './Courses.scss';
 
-type CoursesArrType = {
-	id: string;
-	title: string;
-	description: string;
-	creationDate: string;
-	duration: number;
-	authors: string[];
-};
+const Courses = () => {
+	const coursesArrState = useAppSelector((state) => state.courses);
+	const [filtredArrCourses, setFiltredArrCourses] = useState(coursesArrState);
 
-type Props = {
-	sortedCoursesArr: CoursesArrType[];
-	setSortedCoursesArr(arg: CoursesArrType[]): void;
-};
+	// Get actual courses
 
-const Courses = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
+	useEffect(() => {
+		setFiltredArrCourses(coursesArrState);
+	}, [coursesArrState.length]);
+
+	// Search
+
 	const [searchInput, setSearchInput] = useState<string>('');
 
-	// function sortingCourses() {
-	// 	setSortedCoursesArr(
-	// 		mockedCoursesList.filter(
-	// 			(element) =>
-	// 				element.title.toLowerCase().includes(searchInput.toLowerCase()) ||
-	// 				element.id.toLowerCase().includes(searchInput.toLowerCase())
-	// 		)
-	// 	);
-	// }
+	function sortingCourses() {
+		setFiltredArrCourses(
+			coursesArrState.filter(
+				(element) =>
+					element.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+					element.id.toLowerCase().includes(searchInput.toLowerCase())
+			)
+		);
+	}
 
-	// useEffect(() => {
-	// 	if (searchInput.length < 1) {
-	// 		setSortedCoursesArr(mockedCoursesList);
-	// 	}
-	// }, [searchInput.length]);
+	useEffect(() => {
+		if (searchInput.length < 1) {
+			setFiltredArrCourses(coursesArrState);
+		}
+	}, [searchInput.length]);
+
+	// Check login state
 
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
 	const navigate = useNavigate();
@@ -50,32 +50,38 @@ const Courses = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 	}, []);
 
 	return (
-		<div className='courses'>
-			<div className='courses-row'>
-				{/* <SearchBar
-					searchInput={searchInput}
-					setSearchInput={setSearchInput}
-					sortingCourses={sortingCourses}
-				/> */}
-				<Link to={'/courses/add'}>
-					<Button buttonText='Add new course' />
-				</Link>
-			</div>
-			{sortedCoursesArr.map(
-				({ id, title, description, creationDate, duration, authors }) => (
-					<React.Fragment key={id}>
-						<CourseCard
-							courseId={id}
-							title={title}
-							description={description}
-							authors={authors}
-							duration={duration}
-							creationDate={creationDate}
+		<>
+			{filtredArrCourses.length < 1 ? (
+				<EmptyCourseList />
+			) : (
+				<div className='courses'>
+					<div className='courses-row'>
+						<SearchBar
+							searchInput={searchInput}
+							setSearchInput={setSearchInput}
+							sortingCourses={sortingCourses}
 						/>
-					</React.Fragment>
-				)
+						<Link to={'/courses/add'}>
+							<Button buttonText='Add new course' />
+						</Link>
+					</div>
+					{filtredArrCourses.map(
+						({ id, title, description, creationDate, duration, authors }) => (
+							<React.Fragment key={id}>
+								<CourseCard
+									courseId={id}
+									title={title}
+									description={description}
+									authors={authors}
+									duration={duration}
+									creationDate={creationDate}
+								/>
+							</React.Fragment>
+						)
+					)}
+				</div>
 			)}
-		</div>
+		</>
 	);
 };
 

@@ -1,26 +1,33 @@
 import * as types from './types';
 
-type SaveAuthorsAction = {
-	type: types.CoursesActionTypes.SAVE_AUTHORS;
-	payload: types.AuthorsType[];
-};
-type AddNewAuthorsAction = {
-	type: types.CoursesActionTypes.ADD_AUTHORS;
-	payload: types.AuthorsType;
-};
+// type SaveAuthorsAction = {
+// 	type: types.CoursesActionTypes.SAVE_AUTHORS;
+// 	payload: types.AuthorsType[];
+// };
+// type AddNewAuthorsAction = {
+// 	type: types.CoursesActionTypes.ADD_AUTHORS;
+// 	payload: types.AuthorsType;
+// };
 
-export const saveCoursesAction = (
-	courseData: types.AuthorsType[]
-): SaveAuthorsAction => ({
-	type: types.CoursesActionTypes.SAVE_AUTHORS,
-	payload: courseData,
+export const saveAuthorsAction = (
+	authorsData: types.AuthorsType[]
+): types.SaveAuthors => ({
+	type: types.AuthorsActionTypes.SAVE_AUTHORS,
+	payload: authorsData,
 });
 
-export const addNewCourseAction = (
-	courseData: types.AuthorsType
-): AddNewAuthorsAction => ({
-	type: types.CoursesActionTypes.ADD_AUTHORS,
-	payload: courseData,
+export const addNewAuthorAction = (
+	authorsData: types.AuthorsType
+): types.AddAuthors => ({
+	type: types.AuthorsActionTypes.ADD_AUTHORS,
+	payload: authorsData,
+});
+
+export const deliteAuthorAction = (
+	authorsData: string
+): types.DeleteAuthors => ({
+	type: types.AuthorsActionTypes.DELETE_AUTHORS,
+	payload: authorsData,
 });
 
 // interface SaveAuthors {

@@ -1,24 +1,24 @@
 import * as types from './types';
 
-type SaveCourseAction = {
-	type: types.CoursesActionTypes.SAVE_COURSES;
-	payload: types.CourseType[];
-};
-type AddNewCourseAction = {
-	type: types.CoursesActionTypes.ADD_COURSE;
-	payload: types.CourseType;
-};
+// type SaveCourseAction = {
+// 	type: types.CoursesActionTypes.SAVE_COURSES;
+// 	payload: types.CourseType[];
+// };
+// type AddNewCourseAction = {
+// 	type: types.CoursesActionTypes.ADD_COURSE;
+// 	payload: types.CourseType;
+// };
 
 export const saveCoursesAction = (
 	courseData: types.CourseType[]
-): SaveCourseAction => ({
+): types.SaveCourses => ({
 	type: types.CoursesActionTypes.SAVE_COURSES,
 	payload: courseData,
 });
 
 export const addNewCourseAction = (
 	courseData: types.CourseType
-): AddNewCourseAction => ({
+): types.AddCourse => ({
 	type: types.CoursesActionTypes.ADD_COURSE,
 	payload: courseData,
 });

@@ -1,8 +1,8 @@
-export const SAVE_AUTHORS = 'SAVE_AUTHORS';
-export const ADD_AUTHORS = 'ADD_AUTHORS';
-export const DELETE_AUTHORS = 'DELETE_AUTHORS';
+// export const SAVE_AUTHORS = 'SAVE_AUTHORS';
+// export const ADD_AUTHORS = 'ADD_AUTHORS';
+// export const DELETE_AUTHORS = 'DELETE_AUTHORS';
 
-export const enum CoursesActionTypes {
+export const enum AuthorsActionTypes {
 	SAVE_AUTHORS = 'SAVE_AUTHORS',
 	ADD_AUTHORS = 'ADD_AUTHORS',
 	DELETE_AUTHORS = 'DELETE_AUTHORS',
@@ -14,17 +14,17 @@ export type AuthorsType = {
 };
 
 export interface SaveAuthors {
-	type: typeof SAVE_AUTHORS;
+	type: AuthorsActionTypes.SAVE_AUTHORS;
 	payload: AuthorsType[];
 }
 
 export interface AddAuthors {
-	type: typeof ADD_AUTHORS;
+	type: AuthorsActionTypes.ADD_AUTHORS;
 	payload: AuthorsType;
 }
 
 export interface DeleteAuthors {
-	type: typeof DELETE_AUTHORS;
+	type: AuthorsActionTypes.DELETE_AUTHORS;
 	payload: string;
 }
 
