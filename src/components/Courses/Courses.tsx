@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { CourseCard, SearchBar } from './components';
-import { mockedCoursesList } from 'src/constants';
+// import { mockedCoursesList } from 'src/constants';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'src/common';
 
@@ -24,21 +24,21 @@ type Props = {
 const Courses = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 	const [searchInput, setSearchInput] = useState<string>('');
 
-	function sortingCourses() {
-		setSortedCoursesArr(
-			mockedCoursesList.filter(
-				(element) =>
-					element.title.toLowerCase().includes(searchInput.toLowerCase()) ||
-					element.id.toLowerCase().includes(searchInput.toLowerCase())
-			)
-		);
-	}
+	// function sortingCourses() {
+	// 	setSortedCoursesArr(
+	// 		mockedCoursesList.filter(
+	// 			(element) =>
+	// 				element.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+	// 				element.id.toLowerCase().includes(searchInput.toLowerCase())
+	// 		)
+	// 	);
+	// }
 
-	useEffect(() => {
-		if (searchInput.length < 1) {
-			setSortedCoursesArr(mockedCoursesList);
-		}
-	}, [searchInput.length]);
+	// useEffect(() => {
+	// 	if (searchInput.length < 1) {
+	// 		setSortedCoursesArr(mockedCoursesList);
+	// 	}
+	// }, [searchInput.length]);
 
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
 	const navigate = useNavigate();
@@ -52,11 +52,11 @@ const Courses = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 	return (
 		<div className='courses'>
 			<div className='courses-row'>
-				<SearchBar
+				{/* <SearchBar
 					searchInput={searchInput}
 					setSearchInput={setSearchInput}
 					sortingCourses={sortingCourses}
-				/>
+				/> */}
 				<Link to={'/courses/add'}>
 					<Button buttonText='Add new course' />
 				</Link>

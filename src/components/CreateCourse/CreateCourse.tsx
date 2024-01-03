@@ -9,7 +9,7 @@ import {
 	getCurrentDate,
 } from 'src/helpers';
 import { v4 as uuidv4 } from 'uuid';
-import { mockedAuthorsList } from 'src/constants';
+// import { mockedAuthorsList } from 'src/constants';
 import { Link, useNavigate } from 'react-router-dom';
 
 import './CreateCourse.scss';
@@ -70,63 +70,63 @@ const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 	// Adding new authors
 
 	const [authorNameInput, setAuthorNameInput] = useState<string>('');
-	const [authorsList, setAuthorsList] =
-		useState<AuthorType[]>(mockedAuthorsList);
+	// const [authorsList, setAuthorsList] =
+	// 	useState<AuthorType[]>(mockedAuthorsList);
 
 	function handleCHangeNewAuthor(e: React.ChangeEvent<HTMLInputElement>) {
 		setAuthorNameInput(e.target.value);
 	}
 
-	function addNewAuthor() {
-		const newArr = authorsList;
-		if (authorNameInput.length < 2) {
-			alert('author name too short');
-		} else {
-			newArr.push({
-				id: uuidv4(),
-				name: authorNameInput,
-			});
-			setAuthorsList(newArr);
-			setAuthorNameInput('');
-		}
-	}
+	// function addNewAuthor() {
+	// 	const newArr = authorsList;
+	// 	if (authorNameInput.length < 2) {
+	// 		alert('author name too short');
+	// 	} else {
+	// 		newArr.push({
+	// 			id: uuidv4(),
+	// 			name: authorNameInput,
+	// 		});
+	// 		setAuthorsList(newArr);
+	// 		setAuthorNameInput('');
+	// 	}
+	// }
 
-	function deliteFromAuthorsList(id: string) {
-		const updatedAuthorsList = authorsList.filter((author) => author.id !== id);
-		setAuthorsList(updatedAuthorsList);
-	}
+	// function deliteFromAuthorsList(id: string) {
+	// 	const updatedAuthorsList = authorsList.filter((author) => author.id !== id);
+	// 	setAuthorsList(updatedAuthorsList);
+	// }
 
 	// Add and delite authors from Course Authors
 
 	const [courseAuthorsArr, setCourseAuthorsArr] = useState<AuthorType[]>([]);
 
-	function addToCourseAuthors(id: string) {
-		const updatedCourseAuthorsArr = [...courseAuthorsArr];
-		const currentAuthor = authorsList.filter((author) => author.id === id);
-		updatedCourseAuthorsArr.push(currentAuthor[0]);
+	// function addToCourseAuthors(id: string) {
+	// 	const updatedCourseAuthorsArr = [...courseAuthorsArr];
+	// 	const currentAuthor = authorsList.filter((author) => author.id === id);
+	// 	updatedCourseAuthorsArr.push(currentAuthor[0]);
 
-		setFormData((PrevState) => ({
-			...PrevState,
-			authors: [...PrevState.authors, currentAuthor[0].id],
-		}));
-		setCourseAuthorsArr(updatedCourseAuthorsArr);
-		deliteFromAuthorsList(id);
-	}
+	// 	setFormData((PrevState) => ({
+	// 		...PrevState,
+	// 		authors: [...PrevState.authors, currentAuthor[0].id],
+	// 	}));
+	// 	setCourseAuthorsArr(updatedCourseAuthorsArr);
+	// 	deliteFromAuthorsList(id);
+	// }
 
-	function deliteFromCourseAuthors(id: string) {
-		const updatedAuthorsList = courseAuthorsArr.filter(
-			(author) => author.id !== id
-		);
-		const updatedCourseAuthorsArr = [...authorsList];
-		const currentAuthor = courseAuthorsArr.filter((author) => author.id === id);
-		updatedCourseAuthorsArr.push(currentAuthor[0]);
-		setFormData((prevState) => ({
-			...prevState,
-			authors: prevState.authors.filter((author) => author !== id),
-		}));
-		setCourseAuthorsArr(updatedAuthorsList);
-		setAuthorsList(updatedCourseAuthorsArr);
-	}
+	// function deliteFromCourseAuthors(id: string) {
+	// 	const updatedAuthorsList = courseAuthorsArr.filter(
+	// 		(author) => author.id !== id
+	// 	);
+	// 	const updatedCourseAuthorsArr = [...authorsList];
+	// 	const currentAuthor = courseAuthorsArr.filter((author) => author.id === id);
+	// 	updatedCourseAuthorsArr.push(currentAuthor[0]);
+	// 	setFormData((prevState) => ({
+	// 		...prevState,
+	// 		authors: prevState.authors.filter((author) => author !== id),
+	// 	}));
+	// 	setCourseAuthorsArr(updatedAuthorsList);
+	// 	setAuthorsList(updatedCourseAuthorsArr);
+	// }
 
 	// Form submit function
 
@@ -223,14 +223,14 @@ const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 									value={authorNameInput}
 									onChange={handleCHangeNewAuthor}
 								/>
-								<Button
+								{/* <Button
 									buttonText='create author'
 									type='button'
 									onClick={addNewAuthor}
-								/>
+								/> */}
 							</div>
 							<p className='create-course-subtitle'>Authors List</p>
-							<div className='create-course-new-authors'>
+							{/* <div className='create-course-new-authors'>
 								{authorsList.map((element) => (
 									<div key={element.id}>
 										<AuthorItem
@@ -241,7 +241,7 @@ const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 										/>
 									</div>
 								))}
-							</div>
+							</div> */}
 						</div>
 						<div className='create-course-addet-authors'>
 							<p className='create-course-subtitle'>Course Authors</p>
@@ -250,11 +250,11 @@ const CreateCourse = ({ sortedCoursesArr, setSortedCoursesArr }: Props) => {
 							) : (
 								courseAuthorsArr.map((element) => (
 									<div key={element.id}>
-										<AuthorItem
+										{/* <AuthorItem
 											id={element.id}
 											author={element.name}
 											onDeliteClick={deliteFromCourseAuthors}
-										/>
+										/> */}
 									</div>
 								))
 							)}

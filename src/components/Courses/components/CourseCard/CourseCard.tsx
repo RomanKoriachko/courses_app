@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from 'src/common/Button/Button';
 import {
-	getAuthors,
+	// getAuthors,
 	getShortenString,
 	getCourseDuration,
 	formatCreationDate,
@@ -37,7 +37,7 @@ const CourseCard = ({
 				<div className='course-card-data'>
 					<p className='course-card-data-item'>
 						<span className='bold-text'>Authors: </span>
-						{getShortenString(getAuthors(authors))}
+						{/* {getShortenString(getAuthors(authors))} */}
 					</p>
 					<p className='course-card-data-item'>
 						<span className='bold-text'>Duration: </span>

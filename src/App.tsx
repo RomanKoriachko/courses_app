@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
 	Header,
@@ -9,13 +9,42 @@ import {
 	Login,
 	CreateCourse,
 } from './components';
-import { mockedCoursesList } from './constants';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import './App.scss';
+import { getData } from './helpers';
+import { useAppDispatch, useAppSelector } from './store/courses/types';
+import { saveCoursesAction } from './store/courses/actions';
+
+type CoursesArrType = {
+	id: string;
+	title: string;
+	description: string;
+	creationDate: string;
+	duration: number;
+	authors: string[];
+};
 
 function App() {
-	const [sortedCoursesArr, setSortedCoursesArr] = useState(mockedCoursesList);
+	const [sortedCoursesArr, setSortedCoursesArr] = useState([]);
+
+	const dispatch = useAppDispatch();
+
+	const arr = useAppSelector((state) => state.courses);
+	console.log(arr);
+
+	useEffect(() => {
+		const fetchDataFromServer = async () => {
+			try {
+				const result = await getData('http://localhost:4000/courses/all');
+				dispatch(saveCoursesAction(result));
+			} catch (error) {
+				console.error('Помилка при отриманні даних з сервера:', error);
+			}
+		};
+		fetchDataFromServer();
+	}, []);
+
 	const [errorState, setErrorState] = useState<boolean>(false);
 	return (
 		<>
@@ -47,27 +76,27 @@ function App() {
 								path='/courses'
 								element={
 									<>
-										{mockedCoursesList.length < 1 ? (
-											<EmptyCourseList />
-										) : (
-											<Courses
-												sortedCoursesArr={sortedCoursesArr}
-												setSortedCoursesArr={setSortedCoursesArr}
-											/>
-										)}
+										{/* {mockedCoursesList.length < 1 ? (
+												<EmptyCourseList />
+											) : (
+												<Courses
+													sortedCoursesArr={sortedCoursesArr}
+													setSortedCoursesArr={setSortedCoursesArr}
+												/>
+											)} */}
 									</>
 								}
 							/>
 							<Route path='/courses/:courseId' element={<CourseInfo />} />
-							<Route
-								path='/courses/add'
-								element={
-									<CreateCourse
-										sortedCoursesArr={sortedCoursesArr}
-										setSortedCoursesArr={setSortedCoursesArr}
-									/>
-								}
-							/>
+							{/* <Route
+									path='/courses/add'
+									element={
+										<CreateCourse
+											sortedCoursesArr={sortedCoursesArr}
+											setSortedCoursesArr={setSortedCoursesArr}
+										/>
+									}
+								/> */}
 							<Route path='*' element={<Navigate to='/courses' />} />
 						</Routes>
 					</div>
