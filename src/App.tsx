@@ -12,11 +12,13 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import './App.scss';
 import { getData } from './helpers';
-import { useAppDispatch } from './store/courses/types';
 import { saveCoursesAction } from './store/courses/actions';
 import { saveAuthorsAction } from './store/authors/actions';
+import { useAppDispatch, useAppSelector } from './store';
+import { setErrorStateAction } from './store/errorState/actions';
 
 function App() {
+	const coursesErrorState = useAppSelector((state) => state.errorState);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -30,8 +32,10 @@ function App() {
 					'http://localhost:4000/authors/all'
 				);
 				dispatch(saveAuthorsAction(AuthorsResult));
+				dispatch(setErrorStateAction(false));
 			} catch (error) {
 				console.error('Error while receiving data from the server:', error);
+				dispatch(setErrorStateAction(true));
 				return [];
 			}
 		};
@@ -65,7 +69,18 @@ function App() {
 									/>
 								}
 							/>
-							<Route path='/courses' element={<Courses />} />
+							{coursesErrorState ? (
+								<Route
+									path='/courses'
+									element={
+										<p className='error-message'>
+											Sorry, there was an error loading the course list
+										</p>
+									}
+								/>
+							) : (
+								<Route path='/courses' element={<Courses />} />
+							)}
 							<Route path='/courses/:courseId' element={<CourseInfo />} />
 							<Route path='/courses/add' element={<CreateCourse />} />
 							<Route path='*' element={<Navigate to='/courses' />} />

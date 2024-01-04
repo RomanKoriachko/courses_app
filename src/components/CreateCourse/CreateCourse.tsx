@@ -9,7 +9,6 @@ import {
 } from 'src/helpers';
 import { v4 as uuidv4 } from 'uuid';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'src/store/courses/types';
 import { addNewCourseAction } from 'src/store/courses/actions';
 
 import './CreateCourse.scss';
@@ -17,6 +16,7 @@ import {
 	addNewAuthorAction,
 	deliteAuthorAction,
 } from 'src/store/authors/actions';
+import { useAppDispatch, useAppSelector } from 'src/store';
 
 type AuthorType = {
 	id: string;

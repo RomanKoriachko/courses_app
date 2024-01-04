@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { CourseCard, SearchBar } from './components';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'src/common';
-import { useAppSelector } from 'src/store/authors/types';
 import { EmptyCourseList } from '../EmptyCourseList';
+import { useAppSelector } from 'src/store';
 
 import './Courses.scss';
 

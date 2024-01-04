@@ -7,7 +7,7 @@ import {
 } from '../../helpers';
 import Button from 'src/common/Button/Button';
 import { Link, useParams } from 'react-router-dom';
-import { useAppSelector } from 'src/store/authors/types';
+import { useAppSelector } from 'src/store';
 
 import './CourseInfo.scss';
 

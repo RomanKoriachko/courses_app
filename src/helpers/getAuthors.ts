@@ -1,6 +1,4 @@
-// import { mockedAuthorsList } from 'src/constants';
-
-import { useAppSelector } from 'src/store/courses/types';
+import { useAppSelector } from 'src/store';
 
 export function getAuthors(authors: string[]) {
 	const authorsArrState = useAppSelector((state) => state.authors);
