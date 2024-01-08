@@ -1,13 +1,7 @@
+import { getData } from 'src/helpers';
 import * as types from './types';
-
-// type SaveAuthorsAction = {
-// 	type: types.CoursesActionTypes.SAVE_AUTHORS;
-// 	payload: types.AuthorsType[];
-// };
-// type AddNewAuthorsAction = {
-// 	type: types.CoursesActionTypes.ADD_AUTHORS;
-// 	payload: types.AuthorsType;
-// };
+import { AUTHORS_LIST, ERROR_MESSAGE } from 'src/constants';
+import { setErrorStateAction } from '../errorState/actions';
 
 export const saveAuthorsAction = (
 	authorsData: types.AuthorsType[]
@@ -30,19 +24,13 @@ export const deliteAuthorAction = (
 	payload: authorsData,
 });
 
-// interface SaveAuthors {
-// 	type: types.CoursesActionTypes.SAVE_AUTHORS;
-// 	payload: types.AuthorsType[];
-// }
-
-// interface AddAuthors {
-// 	type: types.CoursesActionTypes.ADD_AUTHORS;
-// 	payload: types.AuthorsType;
-// }
-
-// interface DeleteAuthors {
-// 	type: types.CoursesActionTypes.DELETE_AUTHORS;
-// 	payload: string;
-// }
-
-// export type AuthorsAction = SaveAuthors | AddAuthors | DeleteAuthors;
+export const fetchData = () => async (dispatch) => {
+	try {
+		const authorsResult = await getData(AUTHORS_LIST);
+		dispatch(saveAuthorsAction(authorsResult));
+		dispatch(setErrorStateAction(false));
+	} catch (error) {
+		console.error(ERROR_MESSAGE, error);
+		dispatch(setErrorStateAction(true));
+	}
+};

@@ -1,13 +1,7 @@
+import { getData } from 'src/helpers';
 import * as types from './types';
-
-// type SaveCourseAction = {
-// 	type: types.CoursesActionTypes.SAVE_COURSES;
-// 	payload: types.CourseType[];
-// };
-// type AddNewCourseAction = {
-// 	type: types.CoursesActionTypes.ADD_COURSE;
-// 	payload: types.CourseType;
-// };
+import { COURSES_LIST, ERROR_MESSAGE } from 'src/constants';
+import { setErrorStateAction } from '../errorState/actions';
 
 export const saveCoursesAction = (
 	courseData: types.CourseType[]
@@ -28,19 +22,13 @@ export const deleteCourseAction = (courseData: string): types.DeleteCourse => ({
 	payload: courseData,
 });
 
-// interface SaveCourses {
-// 	type: types.CoursesActionTypes.SAVE_COURSES;
-// 	payload: types.CourseType[];
-// }
-
-// interface AddCourse {
-// 	type: types.CoursesActionTypes.ADD_COURSE;
-// 	payload: types.CourseType;
-// }
-
-// interface DeleteCourse {
-// 	type: types.CoursesActionTypes.DELETE_COURSE;
-// 	payload: string;
-// }
-
-// export type CoursesAction = SaveCourses | AddCourse | DeleteCourse;
+export const fetchData = () => async (dispatch) => {
+	try {
+		const coursesResult = await getData(COURSES_LIST);
+		dispatch(saveCoursesAction(coursesResult));
+		dispatch(setErrorStateAction(false));
+	} catch (error) {
+		console.error(ERROR_MESSAGE, error);
+		dispatch(setErrorStateAction(true));
+	}
+};

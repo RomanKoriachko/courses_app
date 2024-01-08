@@ -9,13 +9,10 @@ import {
 	CourseForm,
 } from './components';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { getData } from './helpers';
-import { saveCoursesAction } from './store/courses/actions';
-import { saveAuthorsAction } from './store/authors/actions';
 import { useAppDispatch, useAppSelector } from './store';
-import { setErrorStateAction } from './store/errorState/actions';
 import { addUserAction } from './store/user/actions';
-import { AUTHORS_LIST, COURSES_LIST, ERROR_MESSAGE } from './constants';
+import { fetchCoursesData } from './store/courses/thunk';
+import { fetchAuthorsData } from './store/authors/thunk';
 
 import './App.scss';
 
@@ -26,21 +23,9 @@ function App() {
 	// Get courses from server
 
 	useEffect(() => {
-		const fetchDataFromServer = async () => {
-			try {
-				const coursesResult = await getData(COURSES_LIST);
-				dispatch(saveCoursesAction(coursesResult));
-				const AuthorsResult = await getData(AUTHORS_LIST);
-				dispatch(saveAuthorsAction(AuthorsResult));
-				dispatch(setErrorStateAction(false));
-			} catch (error) {
-				console.error(ERROR_MESSAGE, error);
-				dispatch(setErrorStateAction(true));
-				return [];
-			}
-		};
-		fetchDataFromServer();
-	}, []);
+		dispatch(fetchCoursesData());
+		dispatch(fetchAuthorsData());
+	}, [dispatch]);
 
 	// Check local state and save data in store
 
