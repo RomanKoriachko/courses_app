@@ -11,6 +11,9 @@
 	color: #ffffff;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	background-position: center;
+	background-repeat: no-repeat;
+
 	&:hover {
 		background-color: #008ebd;
 	}

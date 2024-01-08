@@ -11,6 +11,8 @@ import { SHOW_COURSE_BUTTON_TEXT } from 'src/constants';
 import { Link } from 'react-router-dom';
 
 import './CourseCard.scss';
+import { useAppDispatch } from 'src/store';
+import { deleteCourseAction } from 'src/store/courses/actions';
 
 type Props = {
 	courseId: string;
@@ -29,6 +31,8 @@ const CourseCard = ({
 	duration,
 	creationDate,
 }: Props) => {
+	const dispatch = useAppDispatch();
+
 	return (
 		<div className='course-card'>
 			<p className='course-card-title'>{title}</p>
@@ -47,9 +51,20 @@ const CourseCard = ({
 						<span className='bold-text'>Created: </span>
 						{formatCreationDate(creationDate)}
 					</p>
-					<Link to={`/courses/${courseId}`}>
-						<Button buttonText={SHOW_COURSE_BUTTON_TEXT} />
-					</Link>
+					<div className='course-card-buttons-row'>
+						<Link to={`/courses/${courseId}`}>
+							<Button
+								buttonText={SHOW_COURSE_BUTTON_TEXT}
+								className='show-course'
+							/>
+						</Link>
+						<Button
+							onClick={() => dispatch(deleteCourseAction(courseId))}
+							buttonText=''
+							className='delite'
+						/>
+						<Button buttonText='' className='edit' />
+					</div>
 				</div>
 			</div>
 		</div>

@@ -23,6 +23,11 @@ export const addNewCourseAction = (
 	payload: courseData,
 });
 
+export const deleteCourseAction = (courseData: string): types.DeleteCourse => ({
+	type: types.CoursesActionTypes.DELETE_COURSE,
+	payload: courseData,
+});
+
 // interface SaveCourses {
 // 	type: types.CoursesActionTypes.SAVE_COURSES;
 // 	payload: types.CourseType[];

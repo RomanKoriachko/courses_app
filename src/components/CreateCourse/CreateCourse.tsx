@@ -103,8 +103,6 @@ const CreateCourse = () => {
 		setAuthorsArrlocalState(authorsArrState);
 	}
 
-	console.log(authorsArrState);
-
 	// Add and delite authors from Course Authors
 
 	const [courseAuthorsArr, setCourseAuthorsArr] = useState<AuthorType[]>([]);

@@ -6,10 +6,15 @@ type Props = {
 	buttonText: string;
 	type?: 'button' | 'submit' | 'reset';
 	onClick?(): void;
+	className?: string;
 };
 
-const Button = ({ buttonText, type, onClick }: Props) => (
-	<button className='button' onClick={onClick} type={type}>
+const Button = ({ buttonText, type, onClick, className }: Props) => (
+	<button
+		className={className ? `button ${className}-button` : 'button'}
+		onClick={onClick}
+		type={type}
+	>
 		{buttonText}
 	</button>
 );

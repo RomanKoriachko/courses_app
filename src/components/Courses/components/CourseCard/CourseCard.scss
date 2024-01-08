@@ -29,6 +29,25 @@
 			button {
 				margin-top: 30px;
 			}
+			.course-card-buttons-row {
+				display: flex;
+				align-items: center;
+				gap: 11px;
+				.show-course-button {
+					padding: 13px 31px;
+					width: 180px;
+				}
+				> button {
+					width: 61px;
+					padding: 13px 18px;
+				}
+				.delite-button {
+					background-image: url(../../../../assets/trash-icon.svg);
+				}
+				.edit-button {
+					background-image: url(../../../../assets/edit-icon.svg);
+				}
+			}
 		}
 	}
 }

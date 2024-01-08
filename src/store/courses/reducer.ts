@@ -13,6 +13,9 @@ export const coursesReducer = (
 		case types.CoursesActionTypes.ADD_COURSE:
 			return [...state, action.payload];
 
+		case types.CoursesActionTypes.DELETE_COURSE:
+			return state.filter((cource) => cource.id !== action.payload);
+
 		default:
 			return state;
 	}
