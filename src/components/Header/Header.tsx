@@ -28,9 +28,9 @@ const Header = () => {
 					<Logo />
 					{location.pathname === '/login' ||
 					location.pathname ===
-						'/registration' ? undefined : userState.successful ? (
+						'/registration' ? undefined : userState.isAuth ? (
 						<div className='header-name-and-btn-row'>
-							<p>{userState.user.name}</p>
+							<p>{userState.name}</p>
 							<Button buttonText={'logout'} onClick={onLogoutClick} />
 						</div>
 					) : (

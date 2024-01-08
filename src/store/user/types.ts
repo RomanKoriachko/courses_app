@@ -5,13 +5,10 @@ export const enum UsersActionTypes {
 }
 
 export type UserType = {
-	result: string;
-	successful: boolean;
-	user: {
-		name: string;
-		password: string;
-		email: string;
-	};
+	isAuth: boolean;
+	name: string;
+	email: string;
+	token: string;
 };
 
 export interface AddUser {

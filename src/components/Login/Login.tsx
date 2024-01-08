@@ -48,20 +48,35 @@ const Login = ({ errorState, setErrorState }: Props) => {
 
 	async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		dispatch(
-			addUserAction(
-				await fetchUserData(SERVER_LOGIN_LINK, loginData, setErrorState)
-			)
+		const newUserObj = {
+			isAuth: false,
+			name: '',
+			email: '',
+			token: '',
+		};
+		const data = await fetchUserData(
+			SERVER_LOGIN_LINK,
+			loginData,
+			setErrorState
 		);
+		if (data.successful) {
+			newUserObj.isAuth = true;
+			newUserObj.name = data.user.name;
+			newUserObj.email = data.user.email;
+			newUserObj.token = data.result;
+			dispatch(addUserAction(newUserObj));
+		}
+		console.log(newUserObj);
 	}
 
 	useEffect(() => {
-		if (userState.successful) {
+		console.log(userState);
+		if (userState.isAuth) {
 			const user = JSON.stringify(userState);
 			localStorage.setItem('loginData', user);
 			navigate('/courses');
 		}
-	}, [userState.successful]);
+	}, [userState.isAuth]);
 
 	return (
 		<div className='login'>

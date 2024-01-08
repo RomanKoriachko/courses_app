@@ -12,6 +12,9 @@ const Courses = () => {
 	const coursesArrState = useAppSelector((state) => state.courses);
 	const [filtredArrCourses, setFiltredArrCourses] = useState(coursesArrState);
 
+	const userState = useAppSelector((state) => state.users);
+	console.log(userState);
+
 	// Get actual courses
 
 	useEffect(() => {

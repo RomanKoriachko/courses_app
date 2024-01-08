@@ -16,7 +16,7 @@ import {
 } from 'src/store/authors/actions';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
-import './CreateCourse.scss';
+import './CourseForm.scss';
 
 type AuthorType = {
 	id: string;
@@ -32,7 +32,7 @@ type CoursesArrType = {
 	authors: string[];
 };
 
-const CreateCourse = () => {
+const CourseForm = () => {
 	// Input handlers
 
 	const [formData, setFormData] = useState<CoursesArrType>({
@@ -287,4 +287,4 @@ const CreateCourse = () => {
 	);
 };
 
-export default CreateCourse;
+export default CourseForm;
