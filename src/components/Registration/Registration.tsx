@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
 import { Form } from 'src/common';
-import { fetchData } from 'src/helpers';
+import { fetchUserData } from 'src/helpers';
 import { useNavigate } from 'react-router-dom';
+import { SERVER_REGISTRATION_LINK } from 'src/constants';
 
 import './Registration.scss';
 
@@ -51,13 +52,8 @@ const Registration = ({ errorState, setErrorState }: Props) => {
 
 	function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		fetchData(
-			'http://localhost:4000/register',
-			newUser,
-			navigate,
-			'/login',
-			setErrorState
-		);
+		fetchUserData(SERVER_REGISTRATION_LINK, newUser, setErrorState);
+		navigate('/login');
 	}
 
 	return (
@@ -67,7 +63,7 @@ const Registration = ({ errorState, setErrorState }: Props) => {
 			) : (
 				<Form
 					formTitle='Registration'
-					formAction='http://localhost:4000/register'
+					formAction={SERVER_REGISTRATION_LINK}
 					nameInput={true}
 					isRegistration={true}
 					onFormSubmit={onFormSubmit}

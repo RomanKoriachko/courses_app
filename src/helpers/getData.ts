@@ -1,3 +1,5 @@
+import { ERROR_MESSAGE } from 'src/constants';
+
 export async function getData(link: string) {
 	try {
 		const response = await fetch(link, {
@@ -7,6 +9,6 @@ export async function getData(link: string) {
 		const data = result.result;
 		return data;
 	} catch (error) {
-		console.error('Error while receiving data from the server:', error);
+		console.error(ERROR_MESSAGE, error);
 	}
 }

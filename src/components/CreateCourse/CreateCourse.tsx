@@ -10,13 +10,13 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Link, useNavigate } from 'react-router-dom';
 import { addNewCourseAction } from 'src/store/courses/actions';
-
-import './CreateCourse.scss';
 import {
 	addNewAuthorAction,
 	deliteAuthorAction,
 } from 'src/store/authors/actions';
 import { useAppDispatch, useAppSelector } from 'src/store';
+
+import './CreateCourse.scss';
 
 type AuthorType = {
 	id: string;

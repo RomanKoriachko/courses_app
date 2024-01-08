@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Input } from '../Input';
 import { Button } from '../Button';
-
-import './Form.scss';
 import { Link } from 'react-router-dom';
 import { checkInputValidation } from 'src/helpers';
+
+import './Form.scss';
 
 type Props = {
 	formTitle: string;

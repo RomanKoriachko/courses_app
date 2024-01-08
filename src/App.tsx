@@ -9,37 +9,46 @@ import {
 	CreateCourse,
 } from './components';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-
-import './App.scss';
 import { getData } from './helpers';
 import { saveCoursesAction } from './store/courses/actions';
 import { saveAuthorsAction } from './store/authors/actions';
 import { useAppDispatch, useAppSelector } from './store';
 import { setErrorStateAction } from './store/errorState/actions';
+import { addUserAction } from './store/user/actions';
+import { AUTHORS_LIST, COURSES_LIST, ERROR_MESSAGE } from './constants';
+
+import './App.scss';
 
 function App() {
 	const coursesErrorState = useAppSelector((state) => state.errorState);
 	const dispatch = useAppDispatch();
 
+	// Get courses from server
+
 	useEffect(() => {
 		const fetchDataFromServer = async () => {
 			try {
-				const coursesResult = await getData(
-					'http://localhost:4000/courses/all'
-				);
+				const coursesResult = await getData(COURSES_LIST);
 				dispatch(saveCoursesAction(coursesResult));
-				const AuthorsResult = await getData(
-					'http://localhost:4000/authors/all'
-				);
+				const AuthorsResult = await getData(AUTHORS_LIST);
 				dispatch(saveAuthorsAction(AuthorsResult));
 				dispatch(setErrorStateAction(false));
 			} catch (error) {
-				console.error('Error while receiving data from the server:', error);
+				console.error(ERROR_MESSAGE, error);
 				dispatch(setErrorStateAction(true));
 				return [];
 			}
 		};
 		fetchDataFromServer();
+	}, []);
+
+	// Check local state and save data in store
+
+	const localUserData = JSON.parse(localStorage.getItem('loginData'));
+	useEffect(() => {
+		if (localUserData && localUserData.successful) {
+			dispatch(addUserAction(localUserData));
+		}
 	}, []);
 
 	const [errorState, setErrorState] = useState<boolean>(false);

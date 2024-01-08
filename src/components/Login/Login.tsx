@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Form } from 'src/common';
-import { fetchData } from 'src/helpers';
+import { fetchUserData } from 'src/helpers';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { addUserAction } from 'src/store/user/actions';
+import { SERVER_LOGIN_LINK } from 'src/constants';
 
 import './Login.scss';
 
@@ -40,17 +43,25 @@ const Login = ({ errorState, setErrorState }: Props) => {
 	//  Submit Login function
 
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const userState = useAppSelector((state) => state.users);
 
 	async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		await fetchData(
-			'http://localhost:4000/login',
-			loginData,
-			navigate,
-			'/courses',
-			setErrorState
+		dispatch(
+			addUserAction(
+				await fetchUserData(SERVER_LOGIN_LINK, loginData, setErrorState)
+			)
 		);
 	}
+
+	useEffect(() => {
+		if (userState.successful) {
+			const user = JSON.stringify(userState);
+			localStorage.setItem('loginData', user);
+			navigate('/courses');
+		}
+	}, [userState.successful]);
 
 	return (
 		<div className='login'>
@@ -59,7 +70,7 @@ const Login = ({ errorState, setErrorState }: Props) => {
 			) : (
 				<Form
 					formTitle='Login'
-					formAction='http://localhost:4000/login'
+					formAction={SERVER_LOGIN_LINK}
 					nameInput={false}
 					isRegistration={false}
 					onFormSubmit={onFormSubmit}

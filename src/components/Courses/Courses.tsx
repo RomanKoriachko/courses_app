@@ -40,7 +40,12 @@ const Courses = () => {
 
 	// Check login state
 
+	// const userState = useAppSelector((state) => state.users);
+	// console.log(userState);
+
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
+
+	// console.log(localUserData);
 	const navigate = useNavigate();
 
 	useEffect(() => {

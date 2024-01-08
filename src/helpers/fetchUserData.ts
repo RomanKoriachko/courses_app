@@ -1,4 +1,4 @@
-import { NavigateFunction } from 'react-router-dom';
+import { ERROR_MESSAGE } from 'src/constants';
 
 type UserType = {
 	name?: string;
@@ -6,11 +6,9 @@ type UserType = {
 	email: string;
 };
 
-export async function fetchData(
+export async function fetchUserData(
 	link: string,
 	userData: UserType,
-	navigate: NavigateFunction,
-	navigationLink: string,
 	setErrorState: React.Dispatch<React.SetStateAction<boolean>>
 ) {
 	try {
@@ -22,20 +20,11 @@ export async function fetchData(
 			},
 		});
 		const result = await response.json();
-		// console.log(result);
-
-		if (result.successful) {
-			navigate(navigationLink);
-		}
-		if (result.successful && link === 'http://localhost:4000/login') {
-			const user = JSON.stringify(result);
-			localStorage.setItem('loginData', user);
-			setErrorState(false);
-		}
+		setErrorState(false);
 
 		return result;
 	} catch (error) {
-		console.log(error);
+		console.error(ERROR_MESSAGE, error);
 		setErrorState(true);
 	}
 }
