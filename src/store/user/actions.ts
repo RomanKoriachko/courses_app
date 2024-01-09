@@ -6,6 +6,7 @@ import {
 	ERROR_MESSAGE,
 } from 'src/constants';
 import { setErrorStateAction } from '../errorState/actions';
+import { deleteFromServer } from 'src/helpers/deleteFromServer';
 
 export const addUserAction = (userData: types.UserType): types.AddUser => ({
 	type: types.UsersActionTypes.ADD_USER,
@@ -21,7 +22,7 @@ export const deleteUserAction = (
 
 export const fetchData = (userToken: string) => async (dispatch) => {
 	try {
-		const result = await getData(CURRENT_USER_LINK, 'GET', {
+		const result = await getData(CURRENT_USER_LINK, {
 			Authorization: userToken,
 		});
 		const actualData: types.UserType = {
@@ -44,7 +45,7 @@ export const fetchData = (userToken: string) => async (dispatch) => {
 
 export const deleteData = (userToken: string) => async (dispatch) => {
 	try {
-		await getData(DELETE_USER_LINK, 'DELETE', {
+		await deleteFromServer(DELETE_USER_LINK, {
 			Authorization: userToken,
 		});
 		localStorage.removeItem('loginData');

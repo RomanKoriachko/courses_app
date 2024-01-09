@@ -7,6 +7,7 @@ import {
 	Registration,
 	Login,
 	CourseForm,
+	PrivateRoute,
 } from './components';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store';
@@ -78,8 +79,19 @@ function App() {
 								<Route path='/courses' element={<Courses />} />
 							)}
 							<Route path='/courses/:courseId' element={<CourseInfo />} />
-							<Route path='/courses/add' element={<CourseForm />} />
-							<Route path='*' element={<Navigate to='/courses' />} />
+							<Route
+								path='/courses/add'
+								element={
+									<PrivateRoute>
+										<CourseForm />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path='/courses/update/:courseId'
+								element={<CourseForm />}
+							/>
+							{/* <Route path='*' element={<Navigate to='/courses' />} /> */}
 						</Routes>
 					</div>
 				</main>

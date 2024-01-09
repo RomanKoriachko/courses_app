@@ -2,44 +2,36 @@ import React, { useEffect, useState } from 'react';
 
 import { AuthorItem, InputAndLabel } from './components';
 import { Button } from 'src/common';
-import {
-	checkInputValidation,
-	getCourseDuration,
-	getCurrentDate,
-} from 'src/helpers';
-import { v4 as uuidv4 } from 'uuid';
+import { checkInputValidation, getCourseDuration } from 'src/helpers';
 import { Link, useNavigate } from 'react-router-dom';
-import { addNewCourseAction } from 'src/store/courses/actions';
-import {
-	addNewAuthorAction,
-	deliteAuthorAction,
-} from 'src/store/authors/actions';
+import { deliteAuthorAction } from 'src/store/authors/actions';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
 import './CourseForm.scss';
+import { ADD_AUTHOR_LINK, ADD_COURSE_LINK } from 'src/constants';
+import { postDataToServer } from 'src/helpers/postDataToServer';
+import { fetchAuthorsData } from 'src/store/authors/thunk';
 
 type AuthorType = {
-	id: string;
+	// id: string;
 	name: string;
 };
 
 type CoursesArrType = {
-	id: string;
 	title: string;
 	description: string;
-	creationDate: string;
 	duration: number;
 	authors: string[];
 };
 
 const CourseForm = () => {
+	// const params = useParams();
+
 	// Input handlers
 
 	const [formData, setFormData] = useState<CoursesArrType>({
-		id: '',
 		title: '',
 		description: '',
-		creationDate: '',
 		duration: 0,
 		authors: [],
 	});
@@ -89,14 +81,19 @@ const CourseForm = () => {
 			alert('author name too short');
 		} else {
 			const newAuthor = {
-				id: uuidv4(),
 				name: authorNameInput,
 			};
-			dispatch(addNewAuthorAction(newAuthor));
+			// dispatch(addNewAuthorAction(newAuthor));
+			postDataToServer(ADD_AUTHOR_LINK, newAuthor, userState.token);
+			// dispatch(fetchAuthorsData());
 			setAuthorsArrlocalState(authorsArrState);
 			setAuthorNameInput('');
 		}
 	}
+
+	useEffect(() => {
+		dispatch(fetchAuthorsData());
+	}, [authorNameInput.length]);
 
 	function deliteFromAuthorsList(id: string) {
 		dispatch(deliteAuthorAction(id));
@@ -125,39 +122,36 @@ const CourseForm = () => {
 		setAuthorsArrlocalState(updatedAuthorsList);
 	}
 
-	function deliteFromCourseAuthors(id: string) {
-		const updatedAuthorsList = courseAuthorsArr.filter(
-			(author) => author.id !== id
-		);
-		const updatedCourseAuthorsArr = [...authorsArrLocalState];
-		const currentAuthor = courseAuthorsArr.filter((author) => author.id === id);
-		updatedCourseAuthorsArr.push(currentAuthor[0]);
-		setFormData((prevState) => ({
-			...prevState,
-			authors: prevState.authors.filter((author) => author !== id),
-		}));
-		setCourseAuthorsArr(updatedAuthorsList);
-		setAuthorsArrlocalState(updatedCourseAuthorsArr);
-	}
+	// function deliteFromCourseAuthors(id: string) {
+	// 	const updatedAuthorsList = courseAuthorsArr.filter(
+	// 		(author) => author.id !== id
+	// 	);
+	// 	const updatedCourseAuthorsArr = [...authorsArrLocalState];
+	// 	const currentAuthor = courseAuthorsArr.filter((author) => author.id === id);
+	// 	updatedCourseAuthorsArr.push(currentAuthor[0]);
+	// 	setFormData((prevState) => ({
+	// 		...prevState,
+	// 		authors: prevState.authors.filter((author) => author !== id),
+	// 	}));
+	// 	setCourseAuthorsArr(updatedAuthorsList);
+	// 	setAuthorsArrlocalState(updatedCourseAuthorsArr);
+	// }
 
 	// Form submit function
 
 	function checkFormValidation() {
 		checkInputValidation('create-course-input', 'validation-message');
-		setFormData((prevState) => ({
-			...prevState,
-			id: uuidv4(),
-			creationDate: getCurrentDate(),
-		}));
 	}
 
+	const userState = useAppSelector((state) => state.users);
+
 	const navigate = useNavigate();
-	function onFormSubmitClick(e: React.FormEvent<HTMLFormElement>) {
+	async function onFormSubmitClick(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		if (formData.authors.length < 1) {
 			alert('at least one author should be added');
 		} else {
-			dispatch(addNewCourseAction(formData));
+			postDataToServer(ADD_COURSE_LINK, formData, userState.token);
 			navigate('/courses');
 		}
 	}
@@ -255,7 +249,7 @@ const CourseForm = () => {
 						</div>
 						<div className='create-course-addet-authors'>
 							<p className='create-course-subtitle'>Course Authors</p>
-							{courseAuthorsArr.length < 1 ? (
+							{/* {courseAuthorsArr.length < 1 ? (
 								<p>Author list is empty</p>
 							) : (
 								courseAuthorsArr.map((element) => (
@@ -263,11 +257,11 @@ const CourseForm = () => {
 										<AuthorItem
 											id={element.id}
 											author={element.name}
-											onDeliteClick={deliteFromCourseAuthors}
+											// onDeliteClick={deliteFromCourseAuthors}
 										/>
 									</div>
 								))
-							)}
+							)} */}
 						</div>
 					</div>
 				</div>

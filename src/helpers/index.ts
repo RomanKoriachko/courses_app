@@ -6,3 +6,4 @@ export { checkInputValidation } from './checkInputValidation';
 export { fetchUserData } from './fetchUserData';
 export { getCurrentDate } from './getCurrentDate';
 export { getData } from './getData';
+export { deleteFromServer } from './deleteFromServer';

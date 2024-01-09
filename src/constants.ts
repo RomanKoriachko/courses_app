@@ -8,3 +8,6 @@ export const AUTHORS_LIST = 'http://localhost:4000/authors/all';
 export const ERROR_MESSAGE = 'Error while receiving data from the server:';
 export const CURRENT_USER_LINK = 'http://localhost:4000/users/me';
 export const DELETE_USER_LINK = 'http://localhost:4000/logout';
+export const DELETE_COURSE_LINK = 'http://localhost:4000/courses/';
+export const ADD_COURSE_LINK = 'http://localhost:4000/courses/add';
+export const ADD_AUTHOR_LINK = 'http://localhost:4000/authors/add';

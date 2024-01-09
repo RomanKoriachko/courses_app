@@ -4,15 +4,21 @@ import { CourseCard, SearchBar } from './components';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'src/common';
 import { EmptyCourseList } from '../EmptyCourseList';
-import { useAppSelector } from 'src/store';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { fetchCoursesData } from 'src/store/courses/thunk';
 
 import './Courses.scss';
 
 const Courses = () => {
 	const coursesArrState = useAppSelector((state) => state.courses);
 	const [filtredArrCourses, setFiltredArrCourses] = useState(coursesArrState);
+	const dispatch = useAppDispatch();
 
 	// Get actual courses
+
+	useEffect(() => {
+		dispatch(fetchCoursesData());
+	}, [dispatch]);
 
 	useEffect(() => {
 		setFiltredArrCourses(coursesArrState);

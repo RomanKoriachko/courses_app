@@ -1,17 +1,17 @@
 import { ERROR_MESSAGE } from 'src/constants';
 
-export async function getData(
+export async function deleteFromServer(
 	link: string,
 	headersObj?: { Authorization: string }
 ) {
 	try {
 		const response = await fetch(link, {
-			method: 'GET',
+			method: 'DELETE',
 			headers: headersObj,
 		});
-		const result = await response.json();
-		const data = result.result;
-		return data;
+		if (response.ok) {
+			console.log('DELETE request was successful');
+		}
 	} catch (error) {
 		console.error(ERROR_MESSAGE, error);
 	}

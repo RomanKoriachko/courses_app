@@ -5,3 +5,4 @@ export { Header } from './Header';
 export { Login } from './Login';
 export { Registration } from './Registration';
 export { CourseForm } from './CourseForm';
+export { PrivateRoute } from './PrivateRoute';

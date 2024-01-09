@@ -9,10 +9,10 @@ import {
 } from '../../../../helpers';
 import { SHOW_COURSE_BUTTON_TEXT } from 'src/constants';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/store';
 
 import './CourseCard.scss';
-import { useAppDispatch } from 'src/store';
-import { deleteCourseAction } from 'src/store/courses/actions';
+import { deleteCourse } from 'src/store/courses/thunk';
 
 type Props = {
 	courseId: string;
@@ -31,7 +31,12 @@ const CourseCard = ({
 	duration,
 	creationDate,
 }: Props) => {
+	const userState = useAppSelector((state) => state.users);
 	const dispatch = useAppDispatch();
+
+	async function onDeliteCourseClick() {
+		await dispatch(deleteCourse(courseId, userState.token));
+	}
 
 	return (
 		<div className='course-card'>
@@ -58,12 +63,18 @@ const CourseCard = ({
 								className='show-course'
 							/>
 						</Link>
-						<Button
-							onClick={() => dispatch(deleteCourseAction(courseId))}
-							buttonText=''
-							className='delite'
-						/>
-						<Button buttonText='' className='edit' />
+						{userState.role === 'admin' ? (
+							<>
+								<Button
+									onClick={onDeliteCourseClick}
+									buttonText=''
+									className='delite'
+								/>
+								<Link to={`courses/update/${courseId}`}>
+									<Button buttonText='' className='edit' />
+								</Link>
+							</>
+						) : undefined}
 					</div>
 				</div>
 			</div>
