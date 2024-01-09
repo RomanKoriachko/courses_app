@@ -24,7 +24,7 @@ export const deleteCourseAction = (courseData: string): types.DeleteCourse => ({
 
 export const fetchData = () => async (dispatch) => {
 	try {
-		const coursesResult = await getData(COURSES_LIST);
+		const coursesResult = await getData(COURSES_LIST, 'GET');
 		dispatch(saveCoursesAction(coursesResult));
 		dispatch(setErrorStateAction(false));
 	} catch (error) {

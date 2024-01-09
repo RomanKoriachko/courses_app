@@ -4,7 +4,7 @@ import { Logo } from '../Header/components';
 import { Button } from '../../common';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'src/store';
-import { deleteUserAction } from 'src/store/user/actions';
+import { logoutUser } from 'src/store/user/thunk';
 
 import './Header.scss';
 
@@ -13,9 +13,8 @@ const Header = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigate();
 
-	function onLogoutClick() {
-		localStorage.removeItem('loginData');
-		dispatch(deleteUserAction());
+	async function onLogoutClick() {
+		await dispatch(logoutUser(localUserData.token));
 		navigation('/login');
 	}
 
@@ -27,8 +26,8 @@ const Header = () => {
 				<div className='header-row'>
 					<Logo />
 					{location.pathname === '/login' ||
-					location.pathname ===
-						'/registration' ? undefined : localUserData.isAuth ? (
+					location.pathname === '/registration' ? undefined : localUserData &&
+					  localUserData.isAuth ? (
 						<div className='header-name-and-btn-row'>
 							<p>{localUserData.name}</p>
 							<Button buttonText={'logout'} onClick={onLogoutClick} />

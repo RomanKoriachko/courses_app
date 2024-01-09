@@ -26,7 +26,7 @@ export const deliteAuthorAction = (
 
 export const fetchData = () => async (dispatch) => {
 	try {
-		const authorsResult = await getData(AUTHORS_LIST);
+		const authorsResult = await getData(AUTHORS_LIST, 'GET');
 		dispatch(saveAuthorsAction(authorsResult));
 		dispatch(setErrorStateAction(false));
 	} catch (error) {

@@ -1,6 +1,10 @@
 import { getData } from 'src/helpers';
 import * as types from './types';
-import { CURRENT_USER_LINK, ERROR_MESSAGE } from 'src/constants';
+import {
+	CURRENT_USER_LINK,
+	DELETE_USER_LINK,
+	ERROR_MESSAGE,
+} from 'src/constants';
 import { setErrorStateAction } from '../errorState/actions';
 
 export const addUserAction = (userData: types.UserType): types.AddUser => ({
@@ -15,16 +19,16 @@ export const deleteUserAction = (
 	payload: userData,
 });
 
-export const fetchData = (usertoken: string) => async (dispatch) => {
+export const fetchData = (userToken: string) => async (dispatch) => {
 	try {
-		const result = await getData(CURRENT_USER_LINK, {
-			Authorization: usertoken,
+		const result = await getData(CURRENT_USER_LINK, 'GET', {
+			Authorization: userToken,
 		});
 		const actualData: types.UserType = {
 			isAuth: true,
 			name: '',
 			email: '',
-			token: usertoken,
+			token: userToken,
 			role: '',
 		};
 		actualData.name = result.name;
@@ -35,5 +39,17 @@ export const fetchData = (usertoken: string) => async (dispatch) => {
 	} catch (error) {
 		console.error(ERROR_MESSAGE, error);
 		dispatch(setErrorStateAction(true));
+	}
+};
+
+export const deleteData = (userToken: string) => async (dispatch) => {
+	try {
+		await getData(DELETE_USER_LINK, 'DELETE', {
+			Authorization: userToken,
+		});
+		localStorage.removeItem('loginData');
+		dispatch(deleteUserAction());
+	} catch (error) {
+		console.error(ERROR_MESSAGE, error);
 	}
 };

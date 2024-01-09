@@ -43,11 +43,14 @@ const Courses = () => {
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
 	const navigate = useNavigate();
 
+	console.log(localUserData);
 	useEffect(() => {
 		if (!localUserData) {
 			navigate('/registration');
 		}
-	}, []);
+	}, [localUserData]);
+
+	// console.log(localUserData);
 
 	return (
 		<>
@@ -61,7 +64,7 @@ const Courses = () => {
 							setSearchInput={setSearchInput}
 							sortingCourses={sortingCourses}
 						/>
-						{localUserData.role === 'admin' ? (
+						{localUserData && localUserData.role === 'admin' ? (
 							<Link to={'/courses/add'}>
 								<Button buttonText='Add new course' />
 							</Link>
