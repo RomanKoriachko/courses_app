@@ -31,7 +31,7 @@ function App() {
 
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
 	useEffect(() => {
-		if (localUserData && localUserData.successful) {
+		if (localUserData && localUserData.isAuth) {
 			dispatch(addUserAction(localUserData));
 		}
 	}, []);

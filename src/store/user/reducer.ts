@@ -1,13 +1,10 @@
 import * as types from './types';
 
 export const initUsersState: types.UserType = {
-	result: '',
-	successful: false,
-	user: {
-		name: '',
-		password: '',
-		email: '',
-	},
+	isAuth: false,
+	name: '',
+	email: '',
+	token: '',
 };
 
 export const usersReducer = (
@@ -20,13 +17,10 @@ export const usersReducer = (
 
 		case types.UsersActionTypes.DELETE_USER:
 			return {
-				result: '',
-				successful: false,
-				user: {
-					name: '',
-					password: '',
-					email: '',
-				},
+				isAuth: false,
+				name: '',
+				email: '',
+				token: '',
 			};
 
 		default:

@@ -50,10 +50,21 @@ const Registration = ({ errorState, setErrorState }: Props) => {
 
 	const navigate = useNavigate();
 
-	function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+	async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		fetchUserData(SERVER_REGISTRATION_LINK, newUser, setErrorState);
-		navigate('/login');
+		const response = await fetchUserData(
+			SERVER_REGISTRATION_LINK,
+			newUser,
+			setErrorState
+		);
+		if (response.successful) {
+			navigate('/login');
+		} else {
+			response.errors.forEach((element) => {
+				alert(`${element}`);
+			});
+		}
 	}
 
 	return (
