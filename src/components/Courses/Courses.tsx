@@ -43,14 +43,11 @@ const Courses = () => {
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
 	const navigate = useNavigate();
 
-	console.log(localUserData);
 	useEffect(() => {
 		if (!localUserData) {
 			navigate('/registration');
 		}
 	}, [localUserData]);
-
-	// console.log(localUserData);
 
 	return (
 		<>
