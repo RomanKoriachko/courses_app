@@ -4,8 +4,8 @@ import { Form } from 'src/common';
 import { fetchUserData } from 'src/helpers';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { addUserAction } from 'src/store/user/actions';
 import { SERVER_LOGIN_LINK } from 'src/constants';
+import { getCurrentUser } from 'src/store/user/thunk';
 
 import './Login.scss';
 
@@ -42,36 +42,25 @@ const Login = ({ errorState, setErrorState }: Props) => {
 
 	//  Submit Login function
 
+	const userState = useAppSelector((state) => state.users);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const userState = useAppSelector((state) => state.users);
 
 	async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		const newUserObj = {
-			isAuth: false,
-			name: '',
-			email: '',
-			token: '',
-		};
 		const response = await fetchUserData(
 			SERVER_LOGIN_LINK,
 			loginData,
 			setErrorState
 		);
 		if (response.successful) {
-			newUserObj.isAuth = true;
-			newUserObj.name = response.user.name;
-			newUserObj.email = response.user.email;
-			newUserObj.token = response.result;
-			dispatch(addUserAction(newUserObj));
+			await dispatch(getCurrentUser(response.result));
 		} else {
 			alert(`${response.result}`);
 		}
 	}
 
 	useEffect(() => {
-		console.log(userState);
 		if (userState.isAuth) {
 			const user = JSON.stringify(userState);
 			localStorage.setItem('loginData', user);

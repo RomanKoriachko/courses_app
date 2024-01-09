@@ -3,13 +3,13 @@ import React from 'react';
 import { Logo } from '../Header/components';
 import { Button } from '../../common';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'src/store';
+import { useAppDispatch } from 'src/store';
 import { deleteUserAction } from 'src/store/user/actions';
 
 import './Header.scss';
 
 const Header = () => {
-	const userState = useAppSelector((state) => state.users);
+	const localUserData = JSON.parse(localStorage.getItem('loginData'));
 	const dispatch = useAppDispatch();
 	const navigation = useNavigate();
 
@@ -28,9 +28,9 @@ const Header = () => {
 					<Logo />
 					{location.pathname === '/login' ||
 					location.pathname ===
-						'/registration' ? undefined : userState.isAuth ? (
+						'/registration' ? undefined : localUserData.isAuth ? (
 						<div className='header-name-and-btn-row'>
-							<p>{userState.name}</p>
+							<p>{localUserData.name}</p>
 							<Button buttonText={'logout'} onClick={onLogoutClick} />
 						</div>
 					) : (

@@ -5,6 +5,7 @@ export const initUsersState: types.UserType = {
 	name: '',
 	email: '',
 	token: '',
+	role: '',
 };
 
 export const usersReducer = (
@@ -21,6 +22,7 @@ export const usersReducer = (
 				name: '',
 				email: '',
 				token: '',
+				role: '',
 			};
 
 		default:

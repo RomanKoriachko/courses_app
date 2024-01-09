@@ -38,14 +38,9 @@ const Courses = () => {
 		}
 	}, [searchInput.length]);
 
-	// Check login state
-
-	// const userState = useAppSelector((state) => state.users);
-	// console.log(userState);
+	// Get current user data
 
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
-
-	// console.log(localUserData);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -66,9 +61,11 @@ const Courses = () => {
 							setSearchInput={setSearchInput}
 							sortingCourses={sortingCourses}
 						/>
-						<Link to={'/courses/add'}>
-							<Button buttonText='Add new course' />
-						</Link>
+						{localUserData.role === 'admin' ? (
+							<Link to={'/courses/add'}>
+								<Button buttonText='Add new course' />
+							</Link>
+						) : undefined}
 					</div>
 					{filtredArrCourses.map(
 						({ id, title, description, creationDate, duration, authors }) => (

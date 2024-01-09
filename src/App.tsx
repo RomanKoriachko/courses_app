@@ -36,6 +36,8 @@ function App() {
 		}
 	}, []);
 
+	// console.log(localUserData);
+
 	const [errorState, setErrorState] = useState<boolean>(false);
 	return (
 		<>
