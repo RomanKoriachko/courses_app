@@ -13,19 +13,19 @@ type AuthorType = {
 
 export async function postDataToServer(
 	link: string,
+	method: string,
 	userData: CourseType | AuthorType,
 	userToken: string
 ) {
 	try {
-		return await fetch(link, {
-			method: 'POST',
+		await fetch(link, {
+			method: method,
 			body: JSON.stringify(userData),
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: userToken,
 			},
 		});
-		// console.log(response);
 	} catch (error) {
 		console.error(ERROR_MESSAGE, error);
 	}

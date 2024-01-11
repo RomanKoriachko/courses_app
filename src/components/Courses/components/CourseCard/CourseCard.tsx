@@ -72,7 +72,7 @@ const CourseCard = ({
 									className='delite'
 									isDisable={coursesState.length <= 1 ? true : false}
 								/>
-								<Link to={`courses/update/${courseId}`}>
+								<Link to={`/courses/update/${courseId}`}>
 									<Button buttonText='' className='edit' />
 								</Link>
 							</>

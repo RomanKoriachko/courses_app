@@ -3,11 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { AuthorItem, InputAndLabel } from './components';
 import { Button } from 'src/common';
 import { checkInputValidation, getCourseDuration } from 'src/helpers';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { ADD_AUTHOR_LINK, ADD_COURSE_LINK } from 'src/constants';
+import {
+	ADD_AUTHOR_LINK,
+	ADD_COURSE_LINK,
+	DELETE_COURSE_LINK,
+} from 'src/constants';
 import { postDataToServer } from 'src/helpers/postDataToServer';
 import { fetchAuthorsData } from 'src/store/authors/thunk';
+import { fetchCoursesData } from 'src/store/courses/thunk';
 
 import './CourseForm.scss';
 
@@ -24,8 +29,6 @@ type CoursesArrType = {
 };
 
 const CourseForm = () => {
-	// const params = useParams();
-
 	// Input handlers
 
 	const [formData, setFormData] = useState<CoursesArrType>({
@@ -64,29 +67,34 @@ const CourseForm = () => {
 
 	const [authorsArrLocalState, setAuthorsArrlocalState] = useState([]);
 
-	useEffect(() => {
-		setAuthorsArrlocalState(authorsArrState);
-	}, [authorsArrState.length]);
-
 	const [authorNameInput, setAuthorNameInput] = useState<string>('');
+
 	function handleChangeNewAuthor(e: React.ChangeEvent<HTMLInputElement>) {
 		setAuthorNameInput(e.target.value);
 	}
 
 	useEffect(() => {
 		dispatch(fetchAuthorsData());
-	}, [authorsArrState]);
+	}, [authorsArrState.length]);
 
 	function addNewAuthor() {
+		const newAuthor = {
+			name: authorNameInput,
+		};
+		async function postData() {
+			await postDataToServer(
+				ADD_AUTHOR_LINK,
+				'POST',
+				newAuthor,
+				userState.token
+			);
+			dispatch(fetchAuthorsData());
+		}
 		if (authorNameInput.length < 2) {
 			alert('author name too short');
 		} else {
-			const newAuthor = {
-				name: authorNameInput,
-			};
-			postDataToServer(ADD_AUTHOR_LINK, newAuthor, userState.token);
+			postData();
 			setAuthorNameInput('');
-			dispatch(fetchAuthorsData());
 		}
 	}
 
@@ -101,10 +109,13 @@ const CourseForm = () => {
 		);
 		updatedCourseAuthorsArr.push(currentAuthor[0]);
 
+		// console.log(currentAuthor);
+
 		setFormData((PrevState) => ({
 			...PrevState,
 			authors: [...PrevState.authors, currentAuthor[0].id],
 		}));
+
 		setCourseAuthorsArr(updatedCourseAuthorsArr);
 		const updatedAuthorsList = authorsArrLocalState.filter(
 			(author) => author.id !== id
@@ -127,6 +138,74 @@ const CourseForm = () => {
 		setAuthorsArrlocalState(updatedCourseAuthorsArr);
 	}
 
+	// Editing course
+
+	const params = useParams();
+	const coursesState = useAppSelector((state) => state.courses);
+
+	useEffect(() => {
+		dispatch(fetchCoursesData());
+	}, []);
+
+	useEffect(() => {
+		if (coursesState.length > 0 && params.courseId) {
+			getCurrentCourseData();
+		} else {
+			setAuthorsArrlocalState(authorsArrState);
+		}
+	}, [coursesState.length]);
+
+	useEffect(() => {
+		if (!params.courseId) {
+			setAuthorsArrlocalState(authorsArrState);
+		} else {
+			getCurrentCourseData();
+		}
+	}, [authorsArrState]);
+
+	function getCurrentCourseData() {
+		let currentCourse = [];
+		if (coursesState.length > 0) {
+			currentCourse = coursesState.filter(
+				(cource) => cource.id === params.courseId
+			);
+		} else {
+			currentCourse = [
+				{
+					id: '',
+					title: '',
+					description: '',
+					creationDate: '',
+					duration: 0,
+					authors: [],
+				},
+			];
+		}
+
+		setFormData((prevState) => ({
+			...prevState,
+			title: currentCourse[0].title,
+			description: currentCourse[0].description,
+			duration: currentCourse[0].duration,
+			authors: currentCourse[0].authors,
+		}));
+
+		const currentCourseAuthors = authorsArrState.filter((author) =>
+			currentCourse[0].authors.includes(author.id)
+		);
+
+		setCourseAuthorsArr(currentCourseAuthors);
+
+		const currentAuthorsList = authorsArrState.filter(
+			(author) =>
+				!currentCourseAuthors.some(
+					(courseAuthor) => courseAuthor.id === author.id
+				)
+		);
+
+		setAuthorsArrlocalState(currentAuthorsList);
+	}
+
 	// Form submit function
 
 	function checkFormValidation() {
@@ -140,8 +219,22 @@ const CourseForm = () => {
 		e.preventDefault();
 		if (formData.authors.length < 1) {
 			alert('at least one author should be added');
+		} else if (!params.courseId) {
+			await postDataToServer(
+				ADD_COURSE_LINK,
+				'POST',
+				formData,
+				userState.token
+			);
+			navigate('/courses');
 		} else {
-			postDataToServer(ADD_COURSE_LINK, formData, userState.token);
+			await postDataToServer(
+				DELETE_COURSE_LINK + params.courseId,
+				'PUT',
+				formData,
+				userState.token
+			);
+			await dispatch(fetchCoursesData());
 			navigate('/courses');
 		}
 	}
@@ -262,7 +355,10 @@ const CourseForm = () => {
 						className='create-course-submit-btn-wrapper'
 						onClick={checkFormValidation}
 					>
-						<Button buttonText='create course' type='submit' />
+						<Button
+							buttonText={params.courseId ? 'update course' : 'create course'}
+							type='submit'
+						/>
 					</div>
 				</div>
 			</form>

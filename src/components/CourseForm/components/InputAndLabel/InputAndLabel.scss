@@ -1,5 +1,6 @@
 .input-and-label {
 	min-width: 400px;
+	color: #000000;
 	label {
 		display: block;
 		font-size: 14px;
@@ -12,7 +13,6 @@
 		border-radius: 4px;
 		width: 100%;
 		padding: 13px 16px;
-		color: #cfcfcf;
 		&::placeholder {
 			font-family: 'Open Sans', sans-serif;
 			color: #cfcfcf;

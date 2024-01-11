@@ -14,6 +14,8 @@ import { useAppDispatch, useAppSelector } from './store';
 import { addUserAction } from './store/user/actions';
 
 import './App.scss';
+import { fetchCoursesData } from './store/courses/thunk';
+import { fetchAuthorsData } from './store/authors/thunk';
 
 function App() {
 	const coursesErrorState = useAppSelector((state) => state.errorState);
@@ -29,6 +31,11 @@ function App() {
 	}, []);
 
 	// console.log(localUserData);
+
+	useEffect(() => {
+		dispatch(fetchCoursesData());
+		dispatch(fetchAuthorsData());
+	}, []);
 
 	const [errorState, setErrorState] = useState<boolean>(false);
 	return (
@@ -80,9 +87,13 @@ function App() {
 							/>
 							<Route
 								path='/courses/update/:courseId'
-								element={<CourseForm />}
+								element={
+									<PrivateRoute>
+										<CourseForm />
+									</PrivateRoute>
+								}
 							/>
-							{/* <Route path='*' element={<Navigate to='/courses' />} /> */}
+							<Route path='*' element={<Navigate to='/courses' />} />
 						</Routes>
 					</div>
 				</main>
