@@ -59,6 +59,11 @@
 		.create-course-row {
 			display: flex;
 			justify-content: space-between;
+			.create-course-new-authors {
+				.author-item-icon-delite {
+					display: none;
+				}
+			}
 		}
 		.create-course-input-hours {
 			line-height: 50px;

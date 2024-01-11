@@ -32,10 +32,11 @@ const CourseCard = ({
 	creationDate,
 }: Props) => {
 	const userState = useAppSelector((state) => state.users);
+	const coursesState = useAppSelector((state) => state.courses);
 	const dispatch = useAppDispatch();
 
-	async function onDeliteCourseClick() {
-		await dispatch(deleteCourse(courseId, userState.token));
+	function onDeliteCourseClick() {
+		dispatch(deleteCourse(courseId, userState.token));
 	}
 
 	return (
@@ -69,6 +70,7 @@ const CourseCard = ({
 									onClick={onDeliteCourseClick}
 									buttonText=''
 									className='delite'
+									isDisable={coursesState.length <= 1 ? true : false}
 								/>
 								<Link to={`courses/update/${courseId}`}>
 									<Button buttonText='' className='edit' />

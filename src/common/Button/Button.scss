@@ -14,7 +14,11 @@
 	background-position: center;
 	background-repeat: no-repeat;
 
-	&:hover {
+	&:disabled {
+		background-color: #818181;
+	}
+
+	&:hover:enabled {
 		background-color: #008ebd;
 	}
 }

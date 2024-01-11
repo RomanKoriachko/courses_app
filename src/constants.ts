@@ -11,3 +11,4 @@ export const DELETE_USER_LINK = 'http://localhost:4000/logout';
 export const DELETE_COURSE_LINK = 'http://localhost:4000/courses/';
 export const ADD_COURSE_LINK = 'http://localhost:4000/courses/add';
 export const ADD_AUTHOR_LINK = 'http://localhost:4000/authors/add';
+export const DELETE_AUTHOR_LINK = 'http://localhost:4000/authors/';

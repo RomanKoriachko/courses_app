@@ -4,17 +4,16 @@ import { AuthorItem, InputAndLabel } from './components';
 import { Button } from 'src/common';
 import { checkInputValidation, getCourseDuration } from 'src/helpers';
 import { Link, useNavigate } from 'react-router-dom';
-import { deliteAuthorAction } from 'src/store/authors/actions';
 import { useAppDispatch, useAppSelector } from 'src/store';
-
-import './CourseForm.scss';
 import { ADD_AUTHOR_LINK, ADD_COURSE_LINK } from 'src/constants';
 import { postDataToServer } from 'src/helpers/postDataToServer';
 import { fetchAuthorsData } from 'src/store/authors/thunk';
 
+import './CourseForm.scss';
+
 type AuthorType = {
-	// id: string;
 	name: string;
+	id: string;
 };
 
 type CoursesArrType = {
@@ -60,21 +59,23 @@ const CourseForm = () => {
 
 	// Adding new authors
 
-	const [authorNameInput, setAuthorNameInput] = useState<string>('');
 	const authorsArrState = useAppSelector((state) => state.authors);
-	const [authorsArrLocalState, setAuthorsArrlocalState] =
-		useState(authorsArrState);
 	const dispatch = useAppDispatch();
 
+	const [authorsArrLocalState, setAuthorsArrlocalState] = useState([]);
+
 	useEffect(() => {
-		if (authorsArrState.length > 0) {
-			setAuthorsArrlocalState(authorsArrState);
-		}
+		setAuthorsArrlocalState(authorsArrState);
 	}, [authorsArrState.length]);
 
+	const [authorNameInput, setAuthorNameInput] = useState<string>('');
 	function handleChangeNewAuthor(e: React.ChangeEvent<HTMLInputElement>) {
 		setAuthorNameInput(e.target.value);
 	}
+
+	useEffect(() => {
+		dispatch(fetchAuthorsData());
+	}, [authorsArrState]);
 
 	function addNewAuthor() {
 		if (authorNameInput.length < 2) {
@@ -83,21 +84,10 @@ const CourseForm = () => {
 			const newAuthor = {
 				name: authorNameInput,
 			};
-			// dispatch(addNewAuthorAction(newAuthor));
 			postDataToServer(ADD_AUTHOR_LINK, newAuthor, userState.token);
-			// dispatch(fetchAuthorsData());
-			setAuthorsArrlocalState(authorsArrState);
 			setAuthorNameInput('');
+			dispatch(fetchAuthorsData());
 		}
-	}
-
-	useEffect(() => {
-		dispatch(fetchAuthorsData());
-	}, [authorNameInput.length]);
-
-	function deliteFromAuthorsList(id: string) {
-		dispatch(deliteAuthorAction(id));
-		setAuthorsArrlocalState(authorsArrState);
 	}
 
 	// Add and delite authors from Course Authors
@@ -122,20 +112,20 @@ const CourseForm = () => {
 		setAuthorsArrlocalState(updatedAuthorsList);
 	}
 
-	// function deliteFromCourseAuthors(id: string) {
-	// 	const updatedAuthorsList = courseAuthorsArr.filter(
-	// 		(author) => author.id !== id
-	// 	);
-	// 	const updatedCourseAuthorsArr = [...authorsArrLocalState];
-	// 	const currentAuthor = courseAuthorsArr.filter((author) => author.id === id);
-	// 	updatedCourseAuthorsArr.push(currentAuthor[0]);
-	// 	setFormData((prevState) => ({
-	// 		...prevState,
-	// 		authors: prevState.authors.filter((author) => author !== id),
-	// 	}));
-	// 	setCourseAuthorsArr(updatedAuthorsList);
-	// 	setAuthorsArrlocalState(updatedCourseAuthorsArr);
-	// }
+	function deliteFromCourseAuthors(id: string) {
+		const updatedAuthorsList = courseAuthorsArr.filter(
+			(author) => author.id !== id
+		);
+		const updatedCourseAuthorsArr = [...authorsArrLocalState];
+		const currentAuthor = courseAuthorsArr.filter((author) => author.id === id);
+		updatedCourseAuthorsArr.push(currentAuthor[0]);
+		setFormData((prevState) => ({
+			...prevState,
+			authors: prevState.authors.filter((author) => author !== id),
+		}));
+		setCourseAuthorsArr(updatedAuthorsList);
+		setAuthorsArrlocalState(updatedCourseAuthorsArr);
+	}
 
 	// Form submit function
 
@@ -240,7 +230,6 @@ const CourseForm = () => {
 										<AuthorItem
 											id={element.id}
 											author={element.name}
-											onDeliteClick={deliteFromAuthorsList}
 											onAddClick={addToCourseAuthors}
 										/>
 									</div>
@@ -249,19 +238,19 @@ const CourseForm = () => {
 						</div>
 						<div className='create-course-addet-authors'>
 							<p className='create-course-subtitle'>Course Authors</p>
-							{/* {courseAuthorsArr.length < 1 ? (
+							{courseAuthorsArr.length < 1 ? (
 								<p>Author list is empty</p>
 							) : (
-								courseAuthorsArr.map((element) => (
-									<div key={element.id}>
+								courseAuthorsArr.map((element, i) => (
+									<div key={i}>
 										<AuthorItem
 											id={element.id}
 											author={element.name}
-											// onDeliteClick={deliteFromCourseAuthors}
+											onDeliteClick={deliteFromCourseAuthors}
 										/>
 									</div>
 								))
-							)} */}
+							)}
 						</div>
 					</div>
 				</div>

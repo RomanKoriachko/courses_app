@@ -33,14 +33,12 @@ export const fetchData = () => async (dispatch) => {
 	}
 };
 
-export const deleteData =
-	(id: string, userToken: string) => async (dispatch) => {
-		try {
-			await deleteFromServer(DELETE_COURSE_LINK + id, {
-				Authorization: userToken,
-			});
-			dispatch(deleteCourseAction(id));
-		} catch (error) {
-			console.error(ERROR_MESSAGE, error);
-		}
-	};
+export const deleteData = (id: string, userToken: string) => async () => {
+	try {
+		await deleteFromServer(DELETE_COURSE_LINK + id, {
+			Authorization: userToken,
+		});
+	} catch (error) {
+		console.error(ERROR_MESSAGE, error);
+	}
+};

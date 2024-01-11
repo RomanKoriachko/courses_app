@@ -17,7 +17,7 @@ export async function postDataToServer(
 	userToken: string
 ) {
 	try {
-		await fetch(link, {
+		return await fetch(link, {
 			method: 'POST',
 			body: JSON.stringify(userData),
 			headers: {

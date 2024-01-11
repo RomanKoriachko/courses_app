@@ -7,4 +7,5 @@ export const fetchCoursesData = () => async (dispatch) => {
 export const deleteCourse =
 	(id: string, userToken: string) => async (dispatch) => {
 		await dispatch(deleteData(id, userToken));
+		dispatch(fetchData());
 	};

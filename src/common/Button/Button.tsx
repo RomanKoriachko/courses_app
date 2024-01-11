@@ -7,13 +7,15 @@ type Props = {
 	type?: 'button' | 'submit' | 'reset';
 	onClick?(): void;
 	className?: string;
+	isDisable?: boolean;
 };
 
-const Button = ({ buttonText, type, onClick, className }: Props) => (
+const Button = ({ buttonText, type, onClick, className, isDisable }: Props) => (
 	<button
 		className={className ? `button ${className}-button` : 'button'}
 		onClick={onClick}
 		type={type}
+		disabled={isDisable}
 	>
 		{buttonText}
 	</button>

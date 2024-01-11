@@ -7,9 +7,16 @@ type Props = {
 	author: string;
 	onDeliteClick?(id: string): void;
 	onAddClick?(id: string): void;
+	isDisable?: boolean;
 };
 
-const AuthorItem = ({ id, author, onDeliteClick, onAddClick }: Props) => {
+const AuthorItem = ({
+	id,
+	author,
+	onDeliteClick,
+	onAddClick,
+	isDisable,
+}: Props) => {
 	return (
 		<div className='author-item'>
 			<div>{author}</div>
@@ -19,6 +26,7 @@ const AuthorItem = ({ id, author, onDeliteClick, onAddClick }: Props) => {
 				onClick={() => onAddClick(id)}
 			></button>
 			<button
+				disabled={isDisable}
 				className='author-item-icon author-item-icon-delite'
 				type='button'
 				onClick={() => onDeliteClick(id)}

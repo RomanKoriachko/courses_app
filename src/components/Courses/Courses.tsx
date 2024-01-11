@@ -11,18 +11,21 @@ import './Courses.scss';
 
 const Courses = () => {
 	const coursesArrState = useAppSelector((state) => state.courses);
-	const [filtredArrCourses, setFiltredArrCourses] = useState(coursesArrState);
 	const dispatch = useAppDispatch();
+
+	const [filtredArrCourses, setFiltredArrCourses] = useState(coursesArrState);
 
 	// Get actual courses
 
 	useEffect(() => {
 		dispatch(fetchCoursesData());
-	}, [dispatch]);
+	}, [coursesArrState.length]);
 
 	useEffect(() => {
 		setFiltredArrCourses(coursesArrState);
 	}, [coursesArrState.length]);
+
+	// console.log(coursesArrState);
 
 	// Search
 
