@@ -1,0 +1,34 @@
+@use 'reset';
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	background-color: #f7f7f7;
+}
+
+.container {
+	max-width: 1440px;
+	padding: 0px 30px;
+	margin: 0 auto;
+}
+
+.small-container {
+	max-width: 1182px;
+	padding: 0px 30px;
+	margin: 0 auto;
+}
+
+.main {
+	padding-top: 74px;
+}
+
+.error-message {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 40px;
+}
