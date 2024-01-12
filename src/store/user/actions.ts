@@ -1,4 +1,4 @@
-import { getData } from 'src/helpers';
+import { getDataFromServer } from 'src/helpers';
 import * as types from './types';
 import {
 	CURRENT_USER_LINK,
@@ -6,7 +6,6 @@ import {
 	ERROR_MESSAGE,
 } from 'src/constants';
 import { setErrorStateAction } from '../errorState/actions';
-import { deleteFromServer } from 'src/helpers/deleteFromServer';
 
 export const addUserAction = (userData: types.UserType): types.AddUser => ({
 	type: types.UsersActionTypes.ADD_USER,
@@ -22,9 +21,7 @@ export const deleteUserAction = (
 
 export const fetchData = (userToken: string) => async (dispatch) => {
 	try {
-		const result = await getData(CURRENT_USER_LINK, {
-			Authorization: userToken,
-		});
+		const result = await getDataFromServer(CURRENT_USER_LINK, 'GET', userToken);
 		const actualData: types.UserType = {
 			isAuth: true,
 			name: '',
@@ -45,9 +42,7 @@ export const fetchData = (userToken: string) => async (dispatch) => {
 
 export const deleteData = (userToken: string) => async (dispatch) => {
 	try {
-		await deleteFromServer(DELETE_USER_LINK, {
-			Authorization: userToken,
-		});
+		await getDataFromServer(DELETE_USER_LINK, 'DELETE', userToken);
 		localStorage.removeItem('loginData');
 		dispatch(deleteUserAction());
 	} catch (error) {

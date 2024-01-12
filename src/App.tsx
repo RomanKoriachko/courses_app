@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import {
 	Header,
@@ -12,14 +12,21 @@ import {
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store';
 import { addUserAction } from './store/user/actions';
-
-import './App.scss';
 import { fetchCoursesData } from './store/courses/thunk';
 import { fetchAuthorsData } from './store/authors/thunk';
+
+import './App.scss';
 
 function App() {
 	const coursesErrorState = useAppSelector((state) => state.errorState);
 	const dispatch = useAppDispatch();
+
+	// Get Courses and Authors data
+
+	useEffect(() => {
+		dispatch(fetchCoursesData());
+		dispatch(fetchAuthorsData());
+	}, []);
 
 	// Check local state and save data in store
 
@@ -30,14 +37,6 @@ function App() {
 		}
 	}, []);
 
-	// console.log(localUserData);
-
-	useEffect(() => {
-		dispatch(fetchCoursesData());
-		dispatch(fetchAuthorsData());
-	}, []);
-
-	const [errorState, setErrorState] = useState<boolean>(false);
 	return (
 		<>
 			<BrowserRouter>
@@ -46,24 +45,8 @@ function App() {
 					<div className='small-container'>
 						<Routes>
 							<Route path='/' element={<Navigate to='/courses' />} />
-							<Route
-								path='/registration'
-								element={
-									<Registration
-										errorState={errorState}
-										setErrorState={setErrorState}
-									/>
-								}
-							/>
-							<Route
-								path='/login'
-								element={
-									<Login
-										errorState={errorState}
-										setErrorState={setErrorState}
-									/>
-								}
-							/>
+							<Route path='/registration' element={<Registration />} />
+							<Route path='/login' element={<Login />} />
 							{coursesErrorState ? (
 								<Route
 									path='/courses'

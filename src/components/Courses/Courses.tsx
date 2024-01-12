@@ -19,13 +19,8 @@ const Courses = () => {
 
 	useEffect(() => {
 		dispatch(fetchCoursesData());
-	}, [coursesArrState.length]);
-
-	useEffect(() => {
 		setFiltredArrCourses(coursesArrState);
 	}, [coursesArrState.length]);
-
-	// console.log(coursesArrState);
 
 	// Search
 
@@ -58,9 +53,13 @@ const Courses = () => {
 		}
 	}, [localUserData]);
 
+	const errorState = useAppSelector((state) => state.errorState);
+
 	return (
 		<>
-			{filtredArrCourses.length < 1 ? (
+			{errorState ? (
+				<p>Sorry, an error occurred while loading data</p>
+			) : filtredArrCourses.length < 1 ? (
 				<EmptyCourseList />
 			) : (
 				<div className='courses'>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Form } from 'src/common';
-import { fetchUserData } from 'src/helpers';
+import { postDataToServer } from 'src/helpers';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { SERVER_LOGIN_LINK } from 'src/constants';
@@ -14,12 +14,7 @@ type LoginDataType = {
 	email: string;
 };
 
-type Props = {
-	errorState: boolean;
-	setErrorState(arg: boolean): void;
-};
-
-const Login = ({ errorState, setErrorState }: Props) => {
+const Login = () => {
 	// Changing inputs in Login form
 
 	const [loginData, setLoginData] = useState<LoginDataType>({
@@ -48,10 +43,10 @@ const Login = ({ errorState, setErrorState }: Props) => {
 
 	async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		const response = await fetchUserData(
+		const response = await postDataToServer(
 			SERVER_LOGIN_LINK,
-			loginData,
-			setErrorState
+			'POST',
+			loginData
 		);
 		if (response.successful) {
 			await dispatch(getCurrentUser(response.result));
@@ -67,6 +62,8 @@ const Login = ({ errorState, setErrorState }: Props) => {
 			navigate('/courses');
 		}
 	}, [userState.isAuth]);
+
+	const errorState = useAppSelector((state) => state.errorState);
 
 	return (
 		<div className='login'>

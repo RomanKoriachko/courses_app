@@ -1,4 +1,4 @@
-import { deleteFromServer, getData } from 'src/helpers';
+import { getDataFromServer } from 'src/helpers';
 import * as types from './types';
 import { COURSES_LIST, DELETE_COURSE_LINK, ERROR_MESSAGE } from 'src/constants';
 import { setErrorStateAction } from '../errorState/actions';
@@ -24,7 +24,11 @@ export const deleteCourseAction = (courseData: string): types.DeleteCourse => ({
 
 export const fetchData = () => async (dispatch) => {
 	try {
-		const coursesResult = await getData(COURSES_LIST);
+		const coursesResult = await getDataFromServer(
+			COURSES_LIST,
+			'GET',
+			dispatch
+		);
 		dispatch(saveCoursesAction(coursesResult));
 		dispatch(setErrorStateAction(false));
 	} catch (error) {
@@ -35,9 +39,7 @@ export const fetchData = () => async (dispatch) => {
 
 export const deleteData = (id: string, userToken: string) => async () => {
 	try {
-		await deleteFromServer(DELETE_COURSE_LINK + id, {
-			Authorization: userToken,
-		});
+		await getDataFromServer(DELETE_COURSE_LINK + id, 'DELETE', userToken);
 	} catch (error) {
 		console.error(ERROR_MESSAGE, error);
 	}

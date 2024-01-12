@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { AuthorItem, InputAndLabel } from './components';
 import { Button } from 'src/common';
-import { checkInputValidation, getCourseDuration } from 'src/helpers';
+import {
+	checkInputValidation,
+	getCourseDuration,
+	postDataToServer,
+} from 'src/helpers';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
@@ -10,7 +14,6 @@ import {
 	ADD_COURSE_LINK,
 	DELETE_COURSE_LINK,
 } from 'src/constants';
-import { postDataToServer } from 'src/helpers/postDataToServer';
 import { fetchAuthorsData } from 'src/store/authors/thunk';
 import { fetchCoursesData } from 'src/store/courses/thunk';
 
@@ -94,6 +97,7 @@ const CourseForm = () => {
 			alert('author name too short');
 		} else {
 			postData();
+			getCurrentCourseData();
 			setAuthorNameInput('');
 		}
 	}
@@ -108,8 +112,6 @@ const CourseForm = () => {
 			(author) => author.id === id
 		);
 		updatedCourseAuthorsArr.push(currentAuthor[0]);
-
-		// console.log(currentAuthor);
 
 		setFormData((PrevState) => ({
 			...PrevState,

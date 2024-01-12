@@ -1,6 +1,7 @@
-import { getData } from 'src/helpers';
+import { getDataFromServer } from 'src/helpers';
 import * as types from './types';
 import { AUTHORS_LIST, ERROR_MESSAGE } from 'src/constants';
+import { setErrorStateAction } from '../errorState/actions';
 
 export const saveAuthorsAction = (
 	authorsData: types.AuthorsType[]
@@ -25,11 +26,15 @@ export const deliteAuthorAction = (
 
 export const fetchData = () => async (dispatch) => {
 	try {
-		const authorsResult = await getData(AUTHORS_LIST);
+		const authorsResult = await getDataFromServer(
+			AUTHORS_LIST,
+			'GET',
+			dispatch
+		);
 		dispatch(saveAuthorsAction(authorsResult));
-		// dispatch(setErrorStateAction(false));
+		dispatch(setErrorStateAction(false));
 	} catch (error) {
 		console.error(ERROR_MESSAGE, error);
-		// dispatch(setErrorStateAction(true));
+		dispatch(setErrorStateAction(true));
 	}
 };

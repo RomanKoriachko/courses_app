@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 import { Form } from 'src/common';
-import { fetchUserData } from 'src/helpers';
+import { postDataToServer } from 'src/helpers';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_REGISTRATION_LINK } from 'src/constants';
 
 import './Registration.scss';
+import { useAppSelector } from 'src/store';
 
 type UserType = {
 	name: string;
@@ -13,12 +14,7 @@ type UserType = {
 	email: string;
 };
 
-type Props = {
-	errorState: boolean;
-	setErrorState(arg: boolean): void;
-};
-
-const Registration = ({ errorState, setErrorState }: Props) => {
+const Registration = () => {
 	// Changing inputs in Registration form
 
 	const [newUser, setNewUser] = useState<UserType>({
@@ -52,11 +48,11 @@ const Registration = ({ errorState, setErrorState }: Props) => {
 
 	async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		fetchUserData(SERVER_REGISTRATION_LINK, newUser, setErrorState);
-		const response = await fetchUserData(
+		postDataToServer(SERVER_REGISTRATION_LINK, 'POST', newUser);
+		const response = await postDataToServer(
 			SERVER_REGISTRATION_LINK,
-			newUser,
-			setErrorState
+			'POST',
+			newUser
 		);
 		if (response.successful) {
 			navigate('/login');
@@ -66,6 +62,8 @@ const Registration = ({ errorState, setErrorState }: Props) => {
 			});
 		}
 	}
+
+	const errorState = useAppSelector((state) => state.errorState);
 
 	return (
 		<div className='registration'>

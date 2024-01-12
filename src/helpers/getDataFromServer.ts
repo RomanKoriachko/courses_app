@@ -1,16 +1,22 @@
 import { ERROR_MESSAGE } from 'src/constants';
 
-export async function getDataFromServer(link: string, method: string) {
+export async function getDataFromServer(
+	link: string,
+	method: string,
+	token?: string
+) {
 	try {
 		const response = await fetch(link, {
 			method: method,
 			headers: {
-				'Content-Type': 'application/json',
+				Authorization: token,
 			},
 		});
-		const result = await response.json();
-
-		return result;
+		if (method !== 'DELETE') {
+			const result = await response.json();
+			const data = result.result;
+			return data;
+		}
 	} catch (error) {
 		console.error(ERROR_MESSAGE, error);
 	}

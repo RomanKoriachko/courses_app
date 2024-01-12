@@ -11,14 +11,19 @@ type AuthorType = {
 	name: string;
 };
 
+type LoginDataType = {
+	password: string;
+	email: string;
+};
+
 export async function postDataToServer(
 	link: string,
 	method: string,
-	userData: CourseType | AuthorType,
-	userToken: string
+	userData: CourseType | AuthorType | LoginDataType,
+	userToken?: string
 ) {
 	try {
-		await fetch(link, {
+		const response = await fetch(link, {
 			method: method,
 			body: JSON.stringify(userData),
 			headers: {
@@ -26,6 +31,8 @@ export async function postDataToServer(
 				Authorization: userToken,
 			},
 		});
+		const result = await response.json();
+		return result;
 	} catch (error) {
 		console.error(ERROR_MESSAGE, error);
 	}
