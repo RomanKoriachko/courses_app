@@ -321,13 +321,12 @@ const CourseForm = () => {
 							<p className='create-course-subtitle'>Authors List</p>
 							<div className='create-course-new-authors'>
 								{authorsArrLocalState.map((element) => (
-									<div key={element.id}>
-										<AuthorItem
-											id={element.id}
-											author={element.name}
-											onAddClick={addToCourseAuthors}
-										/>
-									</div>
+									<AuthorItem
+										key={element.id}
+										id={element.id}
+										author={element.name}
+										onAddClick={addToCourseAuthors}
+									/>
 								))}
 							</div>
 						</div>
@@ -337,13 +336,12 @@ const CourseForm = () => {
 								<p>Author list is empty</p>
 							) : (
 								courseAuthorsArr.map((element, i) => (
-									<div key={i}>
-										<AuthorItem
-											id={element.id}
-											author={element.name}
-											onDeliteClick={deliteFromCourseAuthors}
-										/>
-									</div>
+									<AuthorItem
+										key={i}
+										id={element.id}
+										author={element.name}
+										onDeliteClick={deliteFromCourseAuthors}
+									/>
 								))
 							)}
 						</div>
