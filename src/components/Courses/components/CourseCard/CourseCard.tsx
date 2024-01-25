@@ -33,6 +33,7 @@ const CourseCard = ({
 }: Props) => {
 	const userState = useAppSelector((state) => state.users);
 	const coursesState = useAppSelector((state) => state.courses);
+	const authorsState = useAppSelector((state) => state.authors);
 	const dispatch = useAppDispatch();
 
 	function onDeliteCourseClick() {
@@ -47,7 +48,7 @@ const CourseCard = ({
 				<div className='course-card-data'>
 					<p className='course-card-data-item'>
 						<span className='bold-text'>Authors: </span>
-						{getShortenString(getAuthors(authors))}
+						{getShortenString(getAuthors(authors, authorsState))}
 					</p>
 					<p className='course-card-data-item'>
 						<span className='bold-text'>Duration: </span>

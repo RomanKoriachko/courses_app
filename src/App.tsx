@@ -11,9 +11,9 @@ import {
 } from './components';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store';
-import { addUserAction } from './store/user/actions';
 import { fetchCoursesData } from './store/courses/thunk';
 import { fetchAuthorsData } from './store/authors/thunk';
+import { addUserAction } from './store/user/actions';
 
 import './App.scss';
 

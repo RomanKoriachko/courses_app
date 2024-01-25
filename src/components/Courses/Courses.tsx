@@ -44,6 +44,8 @@ const Courses = () => {
 
 	// Get current user data
 
+	const userState = useAppSelector((state) => state.users);
+
 	const localUserData = JSON.parse(localStorage.getItem('loginData'));
 	const navigate = useNavigate();
 
@@ -69,7 +71,7 @@ const Courses = () => {
 							setSearchInput={setSearchInput}
 							sortingCourses={sortingCourses}
 						/>
-						{localUserData && localUserData.role === 'admin' ? (
+						{userState && userState.role === 'admin' ? (
 							<Link to={'/courses/add'}>
 								<Button buttonText='Add new course' />
 							</Link>

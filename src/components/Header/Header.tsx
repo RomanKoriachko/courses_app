@@ -3,18 +3,18 @@ import React from 'react';
 import { Logo } from '../Header/components';
 import { Button } from '../../common';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'src/store';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import { logoutUser } from 'src/store/user/thunk';
 
 import './Header.scss';
 
 const Header = () => {
-	const localUserData = JSON.parse(localStorage.getItem('loginData'));
+	const userState = useAppSelector((state) => state.users);
 	const dispatch = useAppDispatch();
 	const navigation = useNavigate();
 
 	async function onLogoutClick() {
-		await dispatch(logoutUser(localUserData.token));
+		await dispatch(logoutUser(userState.token));
 		navigation('/login');
 	}
 
@@ -26,10 +26,10 @@ const Header = () => {
 				<div className='header-row'>
 					<Logo />
 					{location.pathname === '/login' ||
-					location.pathname === '/registration' ? undefined : localUserData &&
-					  localUserData.isAuth ? (
+					location.pathname === '/registration' ? undefined : userState &&
+					  userState.isAuth ? (
 						<div className='header-name-and-btn-row'>
-							<p>{localUserData.name}</p>
+							<p>{userState.name}</p>
 							<Button buttonText={'logout'} onClick={onLogoutClick} />
 						</div>
 					) : (

@@ -1,10 +1,9 @@
-import { useAppSelector } from 'src/store';
+import { AuthorsType } from 'src/store/authors/types';
 
-export function getAuthors(authors: string[]) {
-	const authorsArrState = useAppSelector((state) => state.authors);
+export function getAuthors(authors: string[], authorsState: AuthorsType[]) {
 	let result = '';
 	authors.forEach((author) => {
-		authorsArrState.forEach((listElement) => {
+		authorsState.forEach((listElement) => {
 			if (listElement.id === author) {
 				result === ''
 					? (result = listElement.name)

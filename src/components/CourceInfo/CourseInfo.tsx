@@ -14,6 +14,7 @@ import './CourseInfo.scss';
 const CourceInfo = () => {
 	const params = useParams();
 	const courseArrState = useAppSelector((state) => state.courses);
+	const authorsState = useAppSelector((state) => state.authors);
 
 	const [currentCourse, setCurrentCourse] = useState([
 		{
@@ -70,7 +71,7 @@ const CourceInfo = () => {
 					<div className='cource-info-data-item'>
 						<p className='cource-info-data-item-name'>Authors:</p>
 						<p className='cource-info-data-item-content'>
-							{getAuthors(currentCourse[0].authors)}
+							{getAuthors(currentCourse[0].authors, authorsState)}
 						</p>
 					</div>
 				</div>
