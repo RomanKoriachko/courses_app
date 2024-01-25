@@ -1,0 +1,14 @@
+export const SEARCH_BUTTON_TEXT = 'Search';
+export const SHOW_COURSE_BUTTON_TEXT = 'Show course';
+export const ADD_COURSE_BUTTON_TEXT = 'Add new course';
+export const SERVER_REGISTRATION_LINK = 'http://localhost:4000/register';
+export const SERVER_LOGIN_LINK = 'http://localhost:4000/login';
+export const COURSES_LIST = 'http://localhost:4000/courses/all';
+export const AUTHORS_LIST = 'http://localhost:4000/authors/all';
+export const ERROR_MESSAGE = 'Error while receiving data from the server:';
+export const CURRENT_USER_LINK = 'http://localhost:4000/users/me';
+export const DELETE_USER_LINK = 'http://localhost:4000/logout';
+export const DELETE_COURSE_LINK = 'http://localhost:4000/courses/';
+export const ADD_COURSE_LINK = 'http://localhost:4000/courses/add';
+export const ADD_AUTHOR_LINK = 'http://localhost:4000/authors/add';
+export const DELETE_AUTHOR_LINK = 'http://localhost:4000/authors/';

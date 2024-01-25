@@ -1,0 +1,21 @@
+.input-and-label {
+	min-width: 400px;
+	color: #000000;
+	label {
+		display: block;
+		font-size: 14px;
+		font-weight: 700;
+	}
+	input {
+		height: 50px;
+		font-family: 'Open Sans', sans-serif;
+		border: 1px solid #cfcfcf;
+		border-radius: 4px;
+		width: 100%;
+		padding: 13px 16px;
+		&::placeholder {
+			font-family: 'Open Sans', sans-serif;
+			color: #cfcfcf;
+		}
+	}
+}
